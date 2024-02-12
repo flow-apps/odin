@@ -134,4 +134,6 @@ export const DetailBar = styled.View`
 
 export const DetailTitle = styled(InfoCardTitle)``;
 
-export const DetailValue = styled(InfoCardValue)``;
+export const DetailValue = styled<{ color?: string }>(InfoCardValue)`
+  color: ${props => props.color}
+`;
