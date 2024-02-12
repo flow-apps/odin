@@ -22,7 +22,7 @@ import { GetAdId, AdTypes } from "../../utils/ads";
 import { translate } from "../../translations/index";
 
 const Home: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const [city, setCity] = useState("");
 
   useEffect(() => {
@@ -60,6 +60,7 @@ const Home: React.FC = () => {
             margin="20px 0px 0px 0px"
             fontSize="20px"
             fontFamily="Raleway-Regular"
+            color="#fff"
           >
             <Feather name="cloud-rain" size={25} />{" "}
             {translate("home.mainTitle")}
