@@ -1,4 +1,4 @@
-package com.odin
+package com.flowapps.odin
 
 import android.app.Application
 import android.content.res.Configuration

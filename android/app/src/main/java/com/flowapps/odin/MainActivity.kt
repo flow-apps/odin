@@ -1,4 +1,4 @@
-package com.odin
+package com.flowapps.odin
 
 import android.os.Build
 import android.os.Bundle
