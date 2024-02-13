@@ -3,10 +3,8 @@ import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import storage from "@react-native-async-storage/async-storage";
 import Feather from "react-native-vector-icons/Feather";
-import background from "../../images/background.jpg";
 import { Title } from "../../components/Custom/Custom";
 import {
-  Background,
   Button,
   ButtonText,
   Container,
@@ -20,6 +18,7 @@ import {
 import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
 import { GetAdId, AdTypes } from "../../utils/ads";
 import { translate } from "../../translations/index";
+import { fonts } from "../../styles/fonts";
 
 const Home: React.FC = () => {
   const navigation = useNavigation<any>();
@@ -32,7 +31,7 @@ const Home: React.FC = () => {
     });
   }, []);
 
-  async function handleForecastNavigate() {
+  const handleForecastNavigate = async () => {
     if (!city)
       return Alert.alert(
         translate("home.alerts.tellACity.title"),
@@ -44,23 +43,18 @@ const Home: React.FC = () => {
   }
 
   return (
-    <Container>
-      <BannerAd
+    <>
+      {/* <BannerAd
         unitId={GetAdId(AdTypes.BANNER)}
         size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-        onAdClosed={() => {}}
-        onAdOpened={() => {}}
-        onAdFailedToLoad={() => {}}
-        onAdLoaded={() => {}}
-      />
-      <Background source={background} resizeMode="stretch">
+      /> */}
+      <Container>
         <SearchContainer>
           <Title
             align="center"
             margin="20px 0px 0px 0px"
             fontSize="20px"
-            fontFamily="Raleway-Regular"
-            color="#fff"
+            fontFamily={fonts.text}
           >
             <Feather name="cloud-rain" size={25} />{" "}
             {translate("home.mainTitle")}
@@ -83,8 +77,8 @@ const Home: React.FC = () => {
             </InputContainer>
           </FormContainer>
         </SearchContainer>
-      </Background>
-    </Container>
+      </Container>
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import storage from "@react-native-async-storage/async-storage";
-import admob, { MaxAdContentRating } from "react-native-google-mobile-ads";
+import admob from "react-native-google-mobile-ads";
 import React, { useEffect, useState } from "react";
 import "react-native-gesture-handler";
 import SplashScreen from "react-native-splash-screen";
@@ -13,8 +13,8 @@ import { useFonts } from "expo-font";
 import {
   Cabin_400Regular,
   Cabin_600SemiBold,
-  Cabin_700Bold
-} from "@expo-google-fonts/cabin"
+  Cabin_700Bold,
+} from "@expo-google-fonts/cabin";
 
 SplashScreen.show();
 
@@ -61,13 +61,13 @@ export default function App() {
     SplashScreen.hide();
   }
 
-  if (showBoarding) {
-    return <OnBoarding done={handleDone} skip={handleDone} />;
-  }
-
   return (
     <ThemeControllerProvider>
-      <AppRoutes />
+      {showBoarding ? (
+        <OnBoarding done={handleDone} skip={handleDone} />
+      ) : (
+        <AppRoutes />
+      )}
     </ThemeControllerProvider>
   );
 }

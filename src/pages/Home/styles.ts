@@ -1,5 +1,4 @@
 import { Dimensions, TouchableOpacity } from "react-native";
-import { RectButton } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 
 interface IButtonText {
@@ -10,28 +9,20 @@ export const Container = styled.View`
   width: ${Dimensions.get("screen").width}px;
   height: ${Dimensions.get("screen").height}px;
   align-items: center;
+  justify-content: center;
+  background-color: ${props => props.theme.colors.background};
 `;
 
 export const SearchContainer = styled.View`
-  /* background: #fff; */
   width: ${Dimensions.get("screen").width - 20}px;
   border-radius: 20px;
   padding: 12px;
-`;
-
-export const Background = styled.ImageBackground`
-  position: relative;
-  width: 100%;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-`;
+  `;
 
 export const Label = styled.Text`
   font-size: 18px;
   font-family: Raleway-SemiBold;
   margin-bottom: 5px;
-  color: #fff;
 `;
 
 export const InputContainer = styled.View`
