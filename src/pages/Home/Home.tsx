@@ -26,7 +26,7 @@ const Home: React.FC = () => {
   const [city, setCity] = useState("");
 
   useEffect(() => {
-    storage.getItem("@city", (err, result) => {
+    storage.getItem("@Odin:City", (err, result) => {
       if (err) return;
       return setCity(result);
     });
@@ -39,7 +39,7 @@ const Home: React.FC = () => {
         translate("home.alerts.tellACity.content")
       );
 
-    await storage.setItem("@city", city);
+    await storage.setItem("@Odin:City", city);
     return navigation.navigate("Forecast", { city });
   }
 

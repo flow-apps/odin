@@ -10,6 +10,7 @@
     "build:prod": "cd ./android && gradlew assembleRelease"
   },
   "dependencies": {
+    "@expo-google-fonts/cabin": "^0.2.3",
     "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/netinfo": "^11.2.1",
@@ -19,7 +20,8 @@
     "axios": "^1.6.7",
     "date-fns": "^3.3.1",
     "expo": "~50.0.6",
-    "expo-font": "^11.10.2",
+    "expo-app-loading": "^2.1.1",
+    "expo-font": "~11.10.2",
     "expo-status-bar": "~1.11.1",
     "i18n-js": "^3.8.0",
     "lodash.memoize": "^4.1.2",
@@ -30,6 +32,8 @@
     "react-native-gesture-handler": "^2.15.0",
     "react-native-get-location": "^4.0.1",
     "react-native-google-mobile-ads": "^12.10.0",
+    "react-native-image-colors": "^2.4.0",
+    "react-native-linear-gradient": "^2.8.3",
     "react-native-localize": "^2.0.2",
     "react-native-onboarding-swiper": "^1.2.0",
     "react-native-reanimated": "^3.7.0",

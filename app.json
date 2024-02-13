@@ -3,7 +3,12 @@
     "name": "odin",
     "slug": "odin",
     "version": "1.0.0",
-    "assetBundlePatterns": ["**/*"]
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "plugins": [
+      "expo-font"
+    ]
   },
   "react-native-google-mobile-ads": {
     "android_app_id": "ca-app-pub-5955119850349278~2334366718",
