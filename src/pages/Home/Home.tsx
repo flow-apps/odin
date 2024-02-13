@@ -19,6 +19,7 @@ import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
 import { GetAdId, AdTypes } from "../../utils/ads";
 import { translate } from "../../translations/index";
 import { fonts } from "../../styles/fonts";
+import Header from "../../components/Header/Header";
 
 const Home: React.FC = () => {
   const navigation = useNavigation<any>();
@@ -40,14 +41,11 @@ const Home: React.FC = () => {
 
     await storage.setItem("@Odin:City", city);
     return navigation.navigate("Forecast", { city });
-  }
+  };
 
   return (
     <>
-      {/* <BannerAd
-        unitId={GetAdId(AdTypes.BANNER)}
-        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-      /> */}
+      <Header title="Buscar cidade" />
       <Container>
         <SearchContainer>
           <Title

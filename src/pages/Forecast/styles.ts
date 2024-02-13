@@ -1,6 +1,7 @@
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 import FastImage from "react-native-fast-image";
+import { fonts } from "../../styles/fonts";
 
 export const Container = styled.ScrollView`
   width: ${Dimensions.get("screen").width}px;
@@ -10,7 +11,7 @@ export const Container = styled.ScrollView`
 
 export const CityTitle = styled.Text`
   text-align: center;
-  font-family: Raleway-Bold;
+  font-family: ${fonts.bold};
   font-size: 23px;
   margin: 20px 0;
   color: #fff;

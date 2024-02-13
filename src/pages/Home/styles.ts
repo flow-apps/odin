@@ -1,5 +1,6 @@
 import { Dimensions, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
+import { fonts } from "../../styles/fonts";
 
 interface IButtonText {
   color?: string;
@@ -21,8 +22,9 @@ export const SearchContainer = styled.View`
 
 export const Label = styled.Text`
   font-size: 18px;
-  font-family: Raleway-SemiBold;
+  font-family: ${fonts.text};
   margin-bottom: 5px;
+  color: ${props => props.theme.colors.black};
 `;
 
 export const InputContainer = styled.View`
@@ -37,7 +39,7 @@ export const Input = styled.TextInput`
   border: 1px solid #5773ff;
   border-radius: 12px;
   font-size: 18px;
-  font-family: Raleway-Regular;
+  font-family: ${fonts.text};
   width: 100%;
   padding: 16px;
   text-align: center;

@@ -5,15 +5,14 @@ import styled from "styled-components/native";
 export const Container = styled.SafeAreaView`
     width: ${Dimensions.get("screen").width}px;
     height: 65px;
-    background: #fff;
+    background: ${props => props.theme.colors.background};
     padding: 10px;
     elevation: 5;
     justify-content: flex-end;
-    border-radius: 12px;
 `;
 
 export const HeaderTitle = styled.Text`
-    color: #000;
+    color: ${props => props.theme.colors.black};
     font-family: Raleway-SemiBold;
     font-size: 18px;
 `;

@@ -7,6 +7,7 @@ import { translate } from "../../translations";
 import { Title } from "../Custom/Custom";
 import { Animation } from "./styles";
 import * as RNLocalize from "react-native-localize";
+import { useTheme } from "styled-components";
 
 interface IBoardingProps {
   done: () => any;
@@ -14,6 +15,9 @@ interface IBoardingProps {
 }
 
 const OnBoarding = ({ done, skip }: IBoardingProps) => {
+
+  const { colors } = useTheme();
+
   const boardingPages: Page[] = [
     {
       image: <Animation source={sunCloud} autoPlay loop />,
@@ -25,7 +29,7 @@ const OnBoarding = ({ done, skip }: IBoardingProps) => {
       subtitle: translate("components.onBoarding.screens.first.content", {
         country: RNLocalize.getCountry(),
       }),
-      backgroundColor: "#efefef",
+      backgroundColor: colors.background,
     },
     {
       image: <Animation source={badWeather} autoPlay loop />,

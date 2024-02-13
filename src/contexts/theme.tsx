@@ -32,6 +32,12 @@ const ThemeControllerProvider: React.FC<{ children: React.ReactNode }> = ({
     setTheme(theme.title === "light" ? darkColors : lightColors);
   }, [theme, theme.title]);
 
+  useEffect(() => {
+    if (defaultTheme !== theme.title) {
+      setTheme(defaultTheme === "light" ? lightColors : darkColors)
+    }
+  }, [defaultTheme])
+
   // useEffect(() => {
   //   StatusBar.setBarStyle("light-content");
   // }, [theme]);

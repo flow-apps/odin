@@ -4,6 +4,7 @@ export const darkColors = {
     black: "#fff",
     white: "#000",
     background: "#0b0c1e",
+    gray: "#aaa",
   }
 }
 
@@ -12,6 +13,7 @@ export const lightColors = {
   colors: {
     black: "#000",
     white: "#fff",
-    background: "#e9e9e9"
+    background: "#e9e9e9",
+    gray: "#444"
   }
 }
