@@ -45,7 +45,6 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <Header title="Buscar cidade" />
       <Container>
         <SearchContainer>
           <Title

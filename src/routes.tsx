@@ -30,13 +30,18 @@ const AppRoutes: React.FC = () => {
   return (
     <NavigationContainer>
       <Navigator screenOptions={{ headerShown: false }}>
-        <Screen name="Home" component={Home} />
+        <Screen name="Home" component={Home} options={{
+            header: () => (
+              <Header title={"Buscar cidade"} />
+            ),
+            headerShown: true,
+          }} />
         <Screen
           name="Forecast"
           component={Forecast}
           options={{
             header: () => (
-              <Header title={translate("components.header.weatherForecast")} />
+              <Header showBackButton title={translate("components.header.weatherForecast")} />
             ),
             headerShown: true,
           }}
