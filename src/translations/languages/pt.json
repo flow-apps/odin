@@ -13,16 +13,16 @@
       },
       "screens": {
         "first": {
-          "title": "Bem-vindo ao Tempoou!",
+          "title": "Bem-vindo ao Odin!",
           "content": "Aqui você recebe informações sobre a previsão do tempo de qualquer cidade do Brasil e do mundo!"
         },
         "second": {
           "title": "Saiba a previsão certa!",
-          "content": "Com o Tempoou você sempre pode confiar na previsão sempre atualizada!"
+          "content": "Com o Odin você sempre pode confiar na previsão sempre atualizada!"
         },
         "third": {
           "title": "Aproveite todos os recursos de graça!",
-          "content": "Aproveite todos os recursos que o Tempoou pode te oferecer totalmente de graça!"
+          "content": "Aproveite todos os recursos que o Odin pode te oferecer totalmente de graça!"
         }
       }
     },

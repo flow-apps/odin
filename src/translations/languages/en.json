@@ -13,16 +13,16 @@
       },
       "screens": {
         "first": {
-          "title": "Welcome to Tempoou!",
+          "title": "Welcome to Odin!",
           "content": "Here you get informations about the weather forecast for any city of {{country}} and world!"
         },
         "second": {
           "title": "Know the right weather forecast!",
-          "content": "With Tempoou you can always rely on the always updated forecast!"
+          "content": "With Odin you can always rely on the always updated forecast!"
         },
         "third": {
           "title": "Enjoy all resources for free!",
-          "content": "Enjoy all resources that the Tempoou you can offer totally free!"
+          "content": "Enjoy all resources that the Odin you can offer totally free!"
         }
       }
     },
