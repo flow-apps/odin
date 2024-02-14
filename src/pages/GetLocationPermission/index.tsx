@@ -18,22 +18,24 @@ import {
   promptForEnableLocationIfNeeded,
 } from "react-native-android-location-enabler";
 import { Platform } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { getCoordinates } from "../../utils/location";
+import { StackActions, useNavigation } from "@react-navigation/native";
+import { StorageService } from "../../services/storage";
+import { isObjectEmpty } from "../../utils/objects";
 
 interface GetLocationPermissionProps {}
 
 const GetLocationPermission: React.FC<GetLocationPermissionProps> = () => {
-  const [lastLocation, setLastLocation] = usePersistedState<{
+  const [lastLocation] = usePersistedState<{
     lat: number;
     lng: number;
-  }>("@Odin:lastLocation", {});
+  }>("", {});
 
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
   const [isRequestablePermission, setIsRequestablePermission] = useState(false);
   const [isEnabledGPS, setIsEnabledGPS] = useState(false);
 
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation();
+  const storage = new StorageService();
 
   const renderScreen = () => {
     if (!hasLocationPermission) {
@@ -101,7 +103,14 @@ const GetLocationPermission: React.FC<GetLocationPermissionProps> = () => {
           </>
         );
       } else {
-        return <></>;
+        return (
+          <>
+            <GetPermissionTitle>Tudo certo por aqui!</GetPermissionTitle>
+            <GetPermissionDesc>
+              Aguarde um momento que já te mostraremos sua previsão do tempo
+            </GetPermissionDesc>
+          </>
+        );
       }
     }
   };
@@ -155,11 +164,16 @@ const GetLocationPermission: React.FC<GetLocationPermissionProps> = () => {
 
   useEffect(() => {
     if (hasLocationPermission) {
-      if (isEnabledGPS || lastLocation) {
-        navigation.navigate("Home");
-      }
+      storage.getItem("@Odin:lastLocation").then((lastLocation) => {
+        const parsedLastLocation = JSON.parse(lastLocation);
+
+        if (!isObjectEmpty(parsedLastLocation) || isEnabledGPS) {
+          navigation.dispatch(StackActions.replace("Home"));
+          return;
+        }
+      });
     }
-  }, [isEnabledGPS, hasLocationPermission, lastLocation]);
+  }, [isEnabledGPS, hasLocationPermission]);
 
   return (
     <Container>

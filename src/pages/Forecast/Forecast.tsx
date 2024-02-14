@@ -38,21 +38,20 @@ import LottieView from "lottie-react-native";
 import { getCoordinates } from "../../utils/location";
 import { usePersistedState } from "../../hooks/usePersistedState";
 import { isLocationEnabled } from "react-native-android-location-enabler";
+import { StorageService } from "../../services/storage";
+import { isObjectEmpty } from "../../utils/objects";
 
 const Forecast: React.FC = () => {
-  const [lastLocation, setLastLocation] = usePersistedState<{
-    lat: number;
-    lng: number;
-  }>("@Odin:LastLocation", {});
   const [showedAd, setShowedAd] = useState(false);
   const [forecast, setForecast] = useState<IForecast>();
 
   const route = useRoute();
-  const navigation = useNavigation<any>();
-  const { title, colors } = useTheme();
+  const { colors } = useTheme();
   const animationRef = useRef<LottieView>(null);
 
   const params = route.params as { city?: string };
+  const storage = new StorageService();
+
   const interstitial = InterstitialAd.createForAdRequest(
     GetAdId(AdTypes.INTERSTITIAL)
   );
@@ -86,15 +85,20 @@ const Forecast: React.FC = () => {
       return setShowedAd(true);
     });
 
-    if (params && params.city) {
+    if (!isObjectEmpty(params) && params.city) {
       await handleGetForecast(params.city);
     } else {
       if (await isLocationEnabled()) {
         const { lat, lng } = await getCoordinates();
-        setLastLocation({ lat, lng });
+        await storage.saveItem(
+          "@Odin:LastLocation",
+          JSON.stringify({ lat, lng })
+        );
         await handleGetForecast(`${lat},${lng}`);
       } else {
+        let lastLocation = (await storage.getItem("@Odin:LastLocation")) as any;
         if (lastLocation) {
+          lastLocation = JSON.parse(lastLocation);
           await handleGetForecast(`${lastLocation.lat},${lastLocation.lng}`);
         }
       }
