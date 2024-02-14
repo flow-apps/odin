@@ -35,8 +35,15 @@ import {
 } from "./styles";
 import HourByHour from "../../components/HourByHour/HourByHour";
 import LottieView from "lottie-react-native";
+import { getCoordinates } from "../../utils/location";
+import { usePersistedState } from "../../hooks/usePersistedState";
+import { isLocationEnabled } from "react-native-android-location-enabler";
 
 const Forecast: React.FC = () => {
+  const [lastLocation, setLastLocation] = usePersistedState<{
+    lat: number;
+    lng: number;
+  }>("@Odin:LastLocation", {});
   const [showedAd, setShowedAd] = useState(false);
   const [forecast, setForecast] = useState<IForecast>();
 
@@ -45,12 +52,30 @@ const Forecast: React.FC = () => {
   const { title, colors } = useTheme();
   const animationRef = useRef<LottieView>(null);
 
-  const { city } = route.params as { city: string };
+  const params = route.params as { city?: string };
   const interstitial = InterstitialAd.createForAdRequest(
     GetAdId(AdTypes.INTERSTITIAL)
   );
 
-  useEffect(() => {
+  const handleGetForecast = async (query: string) => {
+    api
+      .get(
+        `/forecast.json?key=${API_KEY}&q=${query}&days=3&aqi=yes&alerts=no&lang=${I18n.currentLocale()}`
+      )
+      .then((response) => {
+        interstitial.load();
+        setForecast(response.data);
+      })
+      .catch((err) => {
+        Alert.alert(
+          translate("forecast.alerts.cityNotFound.title"),
+          translate("forecast.alerts.cityNotFound.content")
+        );
+        console.log("Erro ao buscar cidade -----> ", err);
+      });
+  };
+
+  const handleOpenForecast = async () => {
     interstitial.addAdEventListener(AdEventType.LOADED, () => {
       if (!showedAd) {
         interstitial.show({
@@ -60,29 +85,30 @@ const Forecast: React.FC = () => {
 
       return setShowedAd(true);
     });
-    api
-      .get(
-        `/forecast.json?key=${API_KEY}&q=${city}&days=3&aqi=yes&alerts=no&lang=${I18n.currentLocale()}`
-      )
-      .then((response) => {
-        interstitial.load();
-        setForecast(response.data);
-      })
-      .catch((err) => {
-        Alert.alert(
-          translate("forecast.alerts.cityNotFound.title"),
-          translate("forecast.alerts.cityNotFound.content", { city })
-        );
-        console.log("Erro ao buscar cidade -----> ", err);
 
-        return navigation.navigate("Home");
-      });
+    if (params && params.city) {
+      await handleGetForecast(params.city);
+    } else {
+      if (await isLocationEnabled()) {
+        const { lat, lng } = await getCoordinates();
+        setLastLocation({ lat, lng });
+        await handleGetForecast(`${lat},${lng}`);
+      } else {
+        if (lastLocation) {
+          await handleGetForecast(`${lastLocation.lat},${lastLocation.lng}`);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    handleOpenForecast();
   }, []);
 
   if (!forecast) {
     return (
       <Loading
-        message={translate("loadings.getCityForecast", { city })}
+        message={translate("loadings.getCityForecast")}
         showInterstitialAd
       />
     );
@@ -156,7 +182,7 @@ const Forecast: React.FC = () => {
           </CurrentForecastExtraText>
         </CurrentForecastExtraWrapper>
         <CurrentForecastExtraWrapper>
-          <Feather name="sun" size={22} color={'#9900ff'} />
+          <Feather name="sun" size={22} color={"#9900ff"} />
           <CurrentForecastExtraText>
             {forecast.current.uv}
           </CurrentForecastExtraText>

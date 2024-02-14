@@ -1,6 +1,6 @@
 {
   "loadings": {
-    "getCityForecast": "{{city}} Weather Forecast..."
+    "getCityForecast": "Searching weather forecast"
   },
   "components": {
     "header": {

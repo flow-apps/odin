@@ -8,6 +8,7 @@ declare module "styled-components/native" {
       white: string;
       background: string;
       gray: string;
+      primary: string;
       shape: string;
     };
   }

@@ -6,12 +6,10 @@ const snow = [
   1066, 1114, 1210, 1213, 1216, 1219, 1222, 1225, 1255, 1258, 1279, 1282, 1117,
 ];
 const sleet = [
-  1204, 1207, 1237, 1249, 1252, 1261, 1264, 1069, 1072, 1168, 1171, 1198, 1201
+  1204, 1207, 1237, 1249, 1252, 1261, 1264, 1069, 1072, 1168, 1171, 1198, 1201,
 ];
 
 export const getWeatherAnimation = (iconCode: number, isNight: boolean) => {
-
-
   if (iconCode === 1000) {
     if (isNight) {
       return require("../animations/weather/moon.json");

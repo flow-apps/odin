@@ -7,6 +7,7 @@ import NoNetwork from "./components/NoNetwork/NoNetwork";
 import Forecast from "./pages/Forecast/Forecast";
 import Home from "./pages/Home/Home";
 import { translate } from "./translations";
+import GetLocationPermission from "./pages/GetLocationPermission";
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -30,22 +31,9 @@ const AppRoutes: React.FC = () => {
   return (
     <NavigationContainer>
       <Navigator screenOptions={{ headerShown: false }}>
-        <Screen name="Home" component={Home} options={{
-            header: () => (
-              <Header title={"Buscar cidade"} />
-            ),
-            headerShown: true,
-          }} />
-        <Screen
-          name="Forecast"
-          component={Forecast}
-          options={{
-            header: () => (
-              <Header showBackButton title={translate("components.header.weatherForecast")} />
-            ),
-            headerShown: true,
-          }}
-        />
+        <Screen name="GetLocationPermisson" component={GetLocationPermission} />
+        <Screen name="Search" component={Home} />
+        <Screen name="Home" component={Forecast} />
       </Navigator>
     </NavigationContainer>
   );
