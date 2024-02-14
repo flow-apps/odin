@@ -22,8 +22,8 @@ const HourByHour = ({ fore, date }: IHourByHour) => {
     !isTomorrow(parseISO(date)) &&
     !isBefore(parseISO(fore.time), new Date()) &&
     getHours(parseISO(fore.time)) !== new Date().getHours();
-  const isNight =
-    parseISO(fore.time).getHours() < 6 && parseISO(fore.time).getHours() >= 18;
+  const hours = new Date(fore.time).getHours()
+  const isDayTime = hours > 6 && hours < 18;
 
   if (!isValidHour || !fore) return null;
 
@@ -37,7 +37,7 @@ const HourByHour = ({ fore, date }: IHourByHour) => {
     <HourByHourCard>
       <HourByHourIcon
         ref={animationRef}
-        source={getWeatherAnimation(fore.condition.code, isNight)}
+        source={getWeatherAnimation(fore.condition.code, !isDayTime)}
         autoPlay
         loop={false}
         onAnimationFinish={handleStopAnimationOnLastFrame}

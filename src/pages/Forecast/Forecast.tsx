@@ -96,11 +96,6 @@ const Forecast: React.FC = () => {
 
   return (
     <Container>
-      <BlurView
-        blurType={title === "light" ? "light" : "dark"}
-        blurAmount={3}
-        style={StyleSheet.absoluteFillObject}
-      />
       <CurrentForecastContainer>
         <CurrentForecastTitle>
           <Feather name="map-pin" size={18} /> {forecast.location.name}
@@ -149,19 +144,19 @@ const Forecast: React.FC = () => {
           </CurrentForecastExtraText>
         </CurrentForecastExtraWrapper>
         <CurrentForecastExtraWrapper>
-          <Feather name="cloud-rain" size={22} color={colors.black} />
+          <Feather name="cloud-rain" size={22} color={"#5773ff"} />
           <CurrentForecastExtraText>
             {forecast.forecast.forecastday[0].day.daily_chance_of_rain}%
           </CurrentForecastExtraText>
         </CurrentForecastExtraWrapper>
         <CurrentForecastExtraWrapper>
-          <Feather name="droplet" size={22} color={colors.black} />
+          <Feather name="droplet" size={22} color={"#8599ff"} />
           <CurrentForecastExtraText>
             {forecast.current.humidity}%
           </CurrentForecastExtraText>
         </CurrentForecastExtraWrapper>
         <CurrentForecastExtraWrapper>
-          <Feather name="sun" size={22} color={colors.black} />
+          <Feather name="sun" size={22} color={'#9900ff'} />
           <CurrentForecastExtraText>
             {forecast.current.uv}
           </CurrentForecastExtraText>

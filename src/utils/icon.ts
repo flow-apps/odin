@@ -1,15 +1,17 @@
-/* 
-  1000 = Ensolarado / Céu limpo
-  1003 = Parcialmente nublado
-  1006/1009 = Nublado
-  1030/1135/1147 = Névoa
-  1063/1150/1153/1180/1183/1195/1189/1186/1243/1246 = Chuva Fraca
-  1192/1195/1273/1276 = Chuva forte
-  1066/1114/1210/1213/1216/1219/1222/1225/1255/1258/1279/1282 = Neve
-  1204/1207/1237/1249/1252/1261/1264/ = Granizo
-*/
+const cloudy = [1006, 1009];
+const mist = [1030, 1135, 1147];
+const rain = [1063, 1150, 1153, 1180, 1183, 1195, 1189, 1186, 1243, 1246, 1240];
+const storm = [1192, 1273, 1276, 1087];
+const snow = [
+  1066, 1114, 1210, 1213, 1216, 1219, 1222, 1225, 1255, 1258, 1279, 1282, 1117,
+];
+const sleet = [
+  1204, 1207, 1237, 1249, 1252, 1261, 1264, 1069, 1072, 1168, 1171, 1198, 1201
+];
 
 export const getWeatherAnimation = (iconCode: number, isNight: boolean) => {
+
+
   if (iconCode === 1000) {
     if (isNight) {
       return require("../animations/weather/moon.json");
@@ -24,37 +26,29 @@ export const getWeatherAnimation = (iconCode: number, isNight: boolean) => {
     return require("../animations/weather/partly-cloudy-day.json");
   }
 
-  if ([1006, 1009].includes(iconCode)) {
+  if (cloudy.includes(iconCode)) {
     return require("../animations/weather/cloudy.json");
   }
 
-  if ([1030, 1135, 1147].includes(iconCode)) {
+  if (mist.includes(iconCode)) {
     return require("../animations/weather/mist.json");
   }
 
-  if (
-    [1063, 1150, 1153, 1180, 1183, 1195, 1189, 1186, 1243, 1246].includes(
-      iconCode
-    )
-  ) {
+  if (rain.includes(iconCode)) {
     return require("../animations/weather/rain.json");
   }
 
-  if ([1192, 1195, 1273, 1276].includes(iconCode)) {
+  if (storm.includes(iconCode)) {
     return require("../animations/weather/storm.json");
   }
 
-  if (
-    [
-      1066, 1114, 1210, 1213, 1216, 1219, 1222, 1225, 1255, 1258, 1279, 1282,
-    ].includes(iconCode)
-  ) {
+  if (snow.includes(iconCode)) {
     return require("../animations/weather/snow.json");
   }
 
-  if ([1204, 1207, 1237, 1249, 1252, 1261, 1264].includes(iconCode)) {
+  if (sleet.includes(iconCode)) {
     return require("../animations/weather/sleet.json");
   }
 
-  return ""
+  return "";
 };
