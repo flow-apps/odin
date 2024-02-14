@@ -2,6 +2,7 @@ import styled from "styled-components/native";
 import { fonts } from "../../styles/fonts";
 import FastImage from "react-native-fast-image";
 import LottieView from "lottie-react-native";
+import { Dimensions } from "react-native";
 
 export const Container = styled.ScrollView`
   background-color: ${(props) => props.theme.colors.background};
@@ -57,6 +58,16 @@ export const CurrentForecastInfoText = styled.Text`
   font-family: ${fonts.text};
 `
 
-export const CurrentForecastExtrasContainer = styled.View``;
+export const CurrentForecastExtrasContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 45px 0px;
+`;
 
 export const CurrentForecastExtraWrapper = styled.View``
+
+export const CurrentForecastExtraText = styled.Text`
+  color: ${props => props.theme.colors.black};
+  font-size: 18px;
+  font-family: ${fonts.text};
+`;

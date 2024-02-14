@@ -1,16 +1,25 @@
-import { API_KEY } from "../../secrets";
+import React, { useEffect, useState } from "react";
+import Feather from "react-native-vector-icons/Feather";
+import Loading from "../../components/Loading/Loading";
+import I18n from "i18n-js";
+import api from "../../services/api";
 import { AdEventType, InterstitialAd } from "react-native-google-mobile-ads";
 import { useNavigation, useRoute } from "@react-navigation/core";
-import React, { memo, useEffect, useState } from "react";
-import { Alert } from "react-native";
-import Loading from "../../components/Loading/Loading";
-import api from "../../services/api";
+import { API_KEY } from "../../secrets";
+import { Alert, StyleSheet } from "react-native";
 import { IForecast } from "../../ts/interfaces/IForecast";
 import { AdTypes, GetAdId } from "../../utils/ads";
+import { translate } from "../../translations";
+import { getWeatherAnimation } from "../../utils/icon";
+import { BlurView } from "@react-native-community/blur";
+import { useTheme } from "styled-components";
 import {
   Container,
   CurrentForecastContainer,
   CurrentForecastCountryTitle,
+  CurrentForecastExtraText,
+  CurrentForecastExtraWrapper,
+  CurrentForecastExtrasContainer,
   CurrentForecastImage,
   CurrentForecastImageContainer,
   CurrentForecastInfoContainer,
@@ -20,9 +29,6 @@ import {
   CurrentForecastTitle,
   TextSup,
 } from "./styles";
-import { translate } from "../../translations";
-import I18n from "i18n-js";
-import { getWeatherAnimation } from "../../utils/icon";
 
 const Forecast: React.FC = () => {
   const [showedAd, setShowedAd] = useState(false);
@@ -30,6 +36,8 @@ const Forecast: React.FC = () => {
 
   const route = useRoute();
   const navigation = useNavigation<any>();
+  const { title } = useTheme();
+
   const { city } = route.params as { city: string };
   const interstitial = InterstitialAd.createForAdRequest(
     GetAdId(AdTypes.INTERSTITIAL)
@@ -50,7 +58,7 @@ const Forecast: React.FC = () => {
         `/forecast.json?key=${API_KEY}&q=${city}&days=3&aqi=yes&alerts=no&lang=${I18n.currentLocale()}`
       )
       .then((response) => {
-        interstitial.load();        
+        interstitial.load();
         setForecast(response.data);
       })
       .catch((err) => {
@@ -75,6 +83,11 @@ const Forecast: React.FC = () => {
 
   return (
     <Container>
+      <BlurView
+        blurType={title === "light" ? "light" : "dark"}
+        blurAmount={5}
+        style={StyleSheet.absoluteFillObject}
+      />
       <CurrentForecastContainer>
         <CurrentForecastTitle>
           {forecast.location.name}
@@ -84,7 +97,10 @@ const Forecast: React.FC = () => {
         </CurrentForecastTitle>
         <CurrentForecastImageContainer>
           <CurrentForecastImage
-            source={getWeatherAnimation(forecast.current.condition.code, !Boolean(forecast.current.is_day))}
+            source={getWeatherAnimation(
+              forecast.current.condition.code,
+              !Boolean(forecast.current.is_day)
+            )}
             resizeMode="contain"
             autoPlay
             speed={0.4}
@@ -102,8 +118,26 @@ const Forecast: React.FC = () => {
           {forecast.current.condition.text}
         </CurrentForecastInfoText>
       </CurrentForecastInfoContainer>
+      <CurrentForecastExtrasContainer>
+        <CurrentForecastExtraWrapper>
+          <CurrentForecastExtraText>
+            <Feather name="wind" size={18} />{" "}
+            {Math.round(forecast.current.wind_kph)} Km/h
+          </CurrentForecastExtraText>
+        </CurrentForecastExtraWrapper>
+        <CurrentForecastExtraWrapper>
+          <CurrentForecastExtraText>
+            <Feather name="droplet" size={18} /> {forecast.current.humidity}%
+          </CurrentForecastExtraText>
+        </CurrentForecastExtraWrapper>
+        <CurrentForecastExtraWrapper>
+          <CurrentForecastExtraText>
+            <Feather name="sun" size={18} /> {forecast.current.uv}
+          </CurrentForecastExtraText>
+        </CurrentForecastExtraWrapper>
+      </CurrentForecastExtrasContainer>
     </Container>
   );
 };
 
-export default memo(Forecast);
+export default Forecast;
