@@ -65,6 +65,7 @@
     "chanceSnow": "Chance de neve",
     "airQuality": "Qualidade do ar",
     "nextDays": "Próximos {{amount}} dias",
+    "hourly_forecast": "Previsão hora a hora",
     "alerts": {
       "cityNotFound": {
         "title": "Cidade não encontrada",

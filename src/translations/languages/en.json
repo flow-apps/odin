@@ -65,6 +65,7 @@
     "chanceSnow": "Snow chance",
     "airQuality": "Air quality",
     "nextDays": "Next {{amount}} days",
+    "hourly_forecast": "Hourly Forecast",
     "alerts": {
       "cityNotFound": {
         "title": "City not found!",

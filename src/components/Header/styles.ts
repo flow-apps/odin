@@ -8,7 +8,6 @@ export const Container = styled.SafeAreaView`
   height: 70px;
   background: ${(props) => props.theme.colors.background};
   padding: 10px;
-  elevation: 5;
   justify-content: center;
 `;
 

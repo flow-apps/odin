@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Feather from "react-native-vector-icons/Feather";
 import Loading from "../../components/Loading/Loading";
 import I18n from "i18n-js";
@@ -20,6 +20,8 @@ import {
   CurrentForecastExtraText,
   CurrentForecastExtraWrapper,
   CurrentForecastExtrasContainer,
+  CurrentForecastFeelsLikeContainer,
+  CurrentForecastFeelsLikeText,
   CurrentForecastImage,
   CurrentForecastImageContainer,
   CurrentForecastInfoContainer,
@@ -27,8 +29,12 @@ import {
   CurrentForecastTemperatureContainer,
   CurrentForecastTemperatureText,
   CurrentForecastTitle,
+  ForecastHourByHourContainer,
+  ForecastHourByHourTitle,
   TextSup,
 } from "./styles";
+import HourByHour from "../../components/HourByHour/HourByHour";
+import LottieView from "lottie-react-native";
 
 const Forecast: React.FC = () => {
   const [showedAd, setShowedAd] = useState(false);
@@ -36,7 +42,8 @@ const Forecast: React.FC = () => {
 
   const route = useRoute();
   const navigation = useNavigation<any>();
-  const { title } = useTheme();
+  const { title, colors } = useTheme();
+  const animationRef = useRef<LottieView>(null);
 
   const { city } = route.params as { city: string };
   const interstitial = InterstitialAd.createForAdRequest(
@@ -81,22 +88,29 @@ const Forecast: React.FC = () => {
     );
   }
 
+  const handleStopAnimationOnLastFrame = () => {
+    if (animationRef.current) {
+      animationRef.current.pause();
+    }
+  };
+
   return (
     <Container>
       <BlurView
         blurType={title === "light" ? "light" : "dark"}
-        blurAmount={5}
+        blurAmount={3}
         style={StyleSheet.absoluteFillObject}
       />
       <CurrentForecastContainer>
         <CurrentForecastTitle>
-          {forecast.location.name}
+          <Feather name="map-pin" size={18} /> {forecast.location.name}
           <CurrentForecastCountryTitle>
             , {forecast.location.country}
           </CurrentForecastCountryTitle>
         </CurrentForecastTitle>
         <CurrentForecastImageContainer>
           <CurrentForecastImage
+            ref={animationRef}
             source={getWeatherAnimation(
               forecast.current.condition.code,
               !Boolean(forecast.current.is_day)
@@ -104,6 +118,8 @@ const Forecast: React.FC = () => {
             resizeMode="contain"
             autoPlay
             speed={0.4}
+            loop={false}
+            onAnimationFinish={handleStopAnimationOnLastFrame}
           />
         </CurrentForecastImageContainer>
       </CurrentForecastContainer>
@@ -113,6 +129,13 @@ const Forecast: React.FC = () => {
           <TextSup>°</TextSup> C
         </CurrentForecastTemperatureText>
       </CurrentForecastTemperatureContainer>
+      <CurrentForecastFeelsLikeContainer>
+        <CurrentForecastFeelsLikeText>
+          {translate("forecast.feelsLike", {
+            temp: `${Math.round(forecast.current.feelslike_c)}°C`,
+          })}
+        </CurrentForecastFeelsLikeText>
+      </CurrentForecastFeelsLikeContainer>
       <CurrentForecastInfoContainer>
         <CurrentForecastInfoText>
           {forecast.current.condition.text}
@@ -120,22 +143,47 @@ const Forecast: React.FC = () => {
       </CurrentForecastInfoContainer>
       <CurrentForecastExtrasContainer>
         <CurrentForecastExtraWrapper>
+          <Feather name="wind" size={22} color={colors.black} />
           <CurrentForecastExtraText>
-            <Feather name="wind" size={18} />{" "}
             {Math.round(forecast.current.wind_kph)} Km/h
           </CurrentForecastExtraText>
         </CurrentForecastExtraWrapper>
         <CurrentForecastExtraWrapper>
+          <Feather name="cloud-rain" size={22} color={colors.black} />
           <CurrentForecastExtraText>
-            <Feather name="droplet" size={18} /> {forecast.current.humidity}%
+            {forecast.forecast.forecastday[0].day.daily_chance_of_rain}%
           </CurrentForecastExtraText>
         </CurrentForecastExtraWrapper>
         <CurrentForecastExtraWrapper>
+          <Feather name="droplet" size={22} color={colors.black} />
           <CurrentForecastExtraText>
-            <Feather name="sun" size={18} /> {forecast.current.uv}
+            {forecast.current.humidity}%
+          </CurrentForecastExtraText>
+        </CurrentForecastExtraWrapper>
+        <CurrentForecastExtraWrapper>
+          <Feather name="sun" size={22} color={colors.black} />
+          <CurrentForecastExtraText>
+            {forecast.current.uv}
           </CurrentForecastExtraText>
         </CurrentForecastExtraWrapper>
       </CurrentForecastExtrasContainer>
+      <ForecastHourByHourTitle>
+        <Feather name="clock" size={22} />{" "}
+        {translate("forecast.hourly_forecast")}
+      </ForecastHourByHourTitle>
+      <ForecastHourByHourContainer
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ marginLeft: 15 }}
+      >
+        {forecast.forecast.forecastday.map((fore) => {
+          const date = fore.date;
+
+          return fore.hour.map((_fore, index) => {
+            return <HourByHour key={index} date={date} fore={_fore} />;
+          });
+        })}
+      </ForecastHourByHourContainer>
     </Container>
   );
 };

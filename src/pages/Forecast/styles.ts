@@ -1,8 +1,6 @@
 import styled from "styled-components/native";
 import { fonts } from "../../styles/fonts";
-import FastImage from "react-native-fast-image";
 import LottieView from "lottie-react-native";
-import { Dimensions } from "react-native";
 
 export const Container = styled.ScrollView`
   background-color: ${(props) => props.theme.colors.background};
@@ -16,7 +14,7 @@ export const CurrentForecastTitle = styled.Text`
   color: ${(props) => props.theme.colors.black};
   font-family: ${fonts.bold};
   text-align: center;
-  font-size: 16px;
+  font-size: 18px;
   margin-bottom: -10px;
 `;
 
@@ -47,6 +45,15 @@ export const CurrentForecastTemperatureText = styled.Text`
   font-family: ${fonts.bold};
 `;
 
+export const CurrentForecastFeelsLikeContainer = styled.View``;
+
+export const CurrentForecastFeelsLikeText = styled.Text`
+  text-align: center;
+  color: ${(props) => props.theme.colors.gray};
+  font-family: ${fonts.text};
+  margin-bottom: 15px;
+`;
+
 export const TextSup = styled.Text``;
 
 export const CurrentForecastInfoContainer = styled.View``;
@@ -55,8 +62,8 @@ export const CurrentForecastInfoText = styled.Text`
   text-align: center;
   color: ${(props) => props.theme.colors.black};
   font-size: 18px;
-  font-family: ${fonts.text};
-`
+  font-family: ${fonts.semiBold};
+`;
 
 export const CurrentForecastExtrasContainer = styled.View`
   flex-direction: row;
@@ -64,10 +71,25 @@ export const CurrentForecastExtrasContainer = styled.View`
   margin: 45px 0px;
 `;
 
-export const CurrentForecastExtraWrapper = styled.View``
+export const CurrentForecastExtraWrapper = styled.View`
+  align-items: center;
+`;
 
 export const CurrentForecastExtraText = styled.Text`
-  color: ${props => props.theme.colors.black};
+  color: ${(props) => props.theme.colors.black};
   font-size: 18px;
   font-family: ${fonts.text};
+  margin-top: 10px;
+`;
+
+export const ForecastHourByHourContainer = styled.ScrollView`
+  margin-bottom: 35px;
+`;
+
+export const ForecastHourByHourTitle = styled.Text`
+  font-family: ${fonts.semiBold};
+  font-size: 22px;
+  color: ${(props) => props.theme.colors.black};
+  margin-bottom: 20px;
+  margin-left: 12px;
 `;

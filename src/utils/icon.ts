@@ -55,4 +55,6 @@ export const getWeatherAnimation = (iconCode: number, isNight: boolean) => {
   if ([1204, 1207, 1237, 1249, 1252, 1261, 1264].includes(iconCode)) {
     return require("../animations/weather/sleet.json");
   }
+
+  return ""
 };
