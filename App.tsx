@@ -32,7 +32,7 @@ export default function App() {
   };
 
   const handleDone = async () => {
-    await storage.setItem("@ShowBoarding", JSON.stringify({ show: false }));
+    await storage.setItem("@Odin:ShowBoarding", JSON.stringify({ show: false }));
     return setShowBoarding(false);
   };
 
