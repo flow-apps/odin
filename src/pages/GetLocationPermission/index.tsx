@@ -28,7 +28,7 @@ const GetLocationPermission: React.FC<GetLocationPermissionProps> = () => {
   const [lastLocation] = usePersistedState<{
     lat: number;
     lng: number;
-  }>("", {});
+  }>("@Odin:LastLocation", {});
 
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
   const [isRequestablePermission, setIsRequestablePermission] = useState(false);
@@ -82,7 +82,7 @@ const GetLocationPermission: React.FC<GetLocationPermissionProps> = () => {
         );
       }
     } else {
-      if (!lastLocation && !isEnabledGPS) {
+      if (isObjectEmpty(lastLocation) && !isEnabledGPS) {
         return (
           <>
             <GetPermissionTitle>
