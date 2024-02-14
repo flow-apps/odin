@@ -8,7 +8,18 @@
     ],
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ca2edc73-ca4e-4b54-9f60-8e7f1351fb2d"
+      }
+    },
+    "runtimeVersion": "1.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/ca2edc73-ca4e-4b54-9f60-8e7f1351fb2d"
+    },
+    "android": {},
+    "ios": {}
   },
   "react-native-google-mobile-ads": {
     "android_app_id": "ca-app-pub-5955119850349278~7216239873",
