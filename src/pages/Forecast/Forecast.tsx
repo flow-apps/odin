@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Feather from "react-native-vector-icons/Feather";
+import AntDesign from "react-native-vector-icons/AntDesign";
 import Loading from "../../components/Loading/Loading";
 import I18n from "i18n-js";
 import api from "../../services/api";
@@ -29,6 +30,13 @@ import {
   CurrentForecastTemperatureContainer,
   CurrentForecastTemperatureText,
   CurrentForecastTitle,
+  ForecastExtraInfoCard,
+  ForecastExtraInfoIcon,
+  ForecastExtraInfoTitle,
+  ForecastExtraInfoValue,
+  ForecastExtraInfoWrapper,
+  ForecastExtraInfosContainer,
+  ForecastExtraInfosTitle,
   ForecastHourByHourContainer,
   ForecastHourByHourTitle,
   TextSup,
@@ -40,6 +48,7 @@ import { usePersistedState } from "../../hooks/usePersistedState";
 import { isLocationEnabled } from "react-native-android-location-enabler";
 import { StorageService } from "../../services/storage";
 import { isObjectEmpty } from "../../utils/objects";
+import { format, parseISO } from "date-fns";
 
 const Forecast: React.FC = () => {
   const [showedAd, setShowedAd] = useState(false);
@@ -124,6 +133,30 @@ const Forecast: React.FC = () => {
     }
   };
 
+  const getUVText = (uv: number) => {
+    if (uv <= 2) {
+      return "Baixo"
+    } else if (uv > 2 && uv <= 5) {
+      return "Moderado"
+    } else if (uv > 5 && uv <= 7) {
+      return "Alto"
+    } else {
+      return "Extremo"
+    }
+  }
+
+  const getAQIText = (aqi: number) => {
+    if (aqi <= 50) {
+      return "Boa";
+    } else if (aqi > 50 && aqi <= 100) {
+      return "Moderada";
+    } else if (aqi > 100 && aqi <= 300) {
+      return "Ruim";
+    } else {
+      return "Perigosa";
+    }
+  };
+
   return (
     <Container>
       <CurrentForecastContainer>
@@ -158,9 +191,8 @@ const Forecast: React.FC = () => {
         <CurrentForecastFeelsLikeText>
           {`${Math.round(
             forecast.forecast.forecastday[0].day.mintemp_c
-          )}° / ${Math.round(
-            forecast.forecast.forecastday[0].day.maxtemp_c
-          )}°`}{"\n"}
+          )}° / ${Math.round(forecast.forecast.forecastday[0].day.maxtemp_c)}°`}
+          {"\n"}
           {translate("forecast.feelsLike", {
             temp: `${Math.round(forecast.current.feelslike_c)}°C`,
           })}
@@ -193,7 +225,7 @@ const Forecast: React.FC = () => {
         <CurrentForecastExtraWrapper>
           <Feather name="sun" size={22} color={"#9900ff"} />
           <CurrentForecastExtraText>
-            {forecast.current.uv}
+            {getUVText(forecast.current.uv)}
           </CurrentForecastExtraText>
         </CurrentForecastExtraWrapper>
       </CurrentForecastExtrasContainer>
@@ -204,7 +236,7 @@ const Forecast: React.FC = () => {
       <ForecastHourByHourContainer
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ marginLeft: 15 }}
+        contentContainerStyle={{ marginLeft: 15, paddingRight: 15 }}
       >
         {forecast.forecast.forecastday.map((fore) => {
           const date = fore.date;
@@ -214,6 +246,77 @@ const Forecast: React.FC = () => {
           });
         })}
       </ForecastHourByHourContainer>
+      <ForecastExtraInfosTitle>
+        <Feather name="info" size={22} /> Mais informações
+      </ForecastExtraInfosTitle>
+      <ForecastExtraInfosContainer
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ marginLeft: 15, paddingRight: 18 }}
+      >
+        <ForecastExtraInfoCard>
+          <ForecastExtraInfoIcon>
+            <Feather name="clock" size={30} color={colors.primary} />
+          </ForecastExtraInfoIcon>
+          <ForecastExtraInfoWrapper>
+            <ForecastExtraInfoTitle>Última atualização</ForecastExtraInfoTitle>
+            <ForecastExtraInfoValue>
+              {format(new Date(forecast.current.last_updated), "HH:mm")}
+            </ForecastExtraInfoValue>
+          </ForecastExtraInfoWrapper>
+        </ForecastExtraInfoCard>
+
+        <ForecastExtraInfoCard>
+          <ForecastExtraInfoIcon>
+            <Feather name="cloud-rain" size={30} color={colors.primary} />
+          </ForecastExtraInfoIcon>
+          <ForecastExtraInfoWrapper>
+            <ForecastExtraInfoTitle>Total de chuva</ForecastExtraInfoTitle>
+            <ForecastExtraInfoValue>
+              {forecast.forecast.forecastday[0].day.totalprecip_mm
+                .toFixed(2)
+                .replace(".", ",")}{" "}
+              mm
+            </ForecastExtraInfoValue>
+          </ForecastExtraInfoWrapper>
+        </ForecastExtraInfoCard>
+
+        <ForecastExtraInfoCard>
+          <ForecastExtraInfoIcon>
+            <Feather name="activity" size={30} color={colors.primary} />
+          </ForecastExtraInfoIcon>
+          <ForecastExtraInfoWrapper>
+            <ForecastExtraInfoTitle>Qualidade do ar</ForecastExtraInfoTitle>
+            <ForecastExtraInfoValue>
+              {getAQIText(forecast.current.air_quality["us-epa-index"])}
+            </ForecastExtraInfoValue>
+          </ForecastExtraInfoWrapper>
+        </ForecastExtraInfoCard>
+
+        <ForecastExtraInfoCard>
+          <ForecastExtraInfoIcon>
+            <Feather name="eye" size={30} color={colors.primary} />
+          </ForecastExtraInfoIcon>
+          <ForecastExtraInfoWrapper>
+            <ForecastExtraInfoTitle>Visibilidade</ForecastExtraInfoTitle>
+            <ForecastExtraInfoValue>
+              {forecast.current.vis_km} Km
+            </ForecastExtraInfoValue>
+          </ForecastExtraInfoWrapper>
+        </ForecastExtraInfoCard>
+
+        <ForecastExtraInfoCard>
+          <ForecastExtraInfoIcon>
+            <AntDesign name="dashboard" size={30} color={colors.primary} />
+          </ForecastExtraInfoIcon>
+          <ForecastExtraInfoWrapper>
+            <ForecastExtraInfoTitle>Pressão</ForecastExtraInfoTitle>
+            <ForecastExtraInfoValue>
+              {forecast.current.pressure_mb} mBar
+            </ForecastExtraInfoValue>
+          </ForecastExtraInfoWrapper>
+        </ForecastExtraInfoCard>
+      </ForecastExtraInfosContainer>
     </Container>
   );
 };

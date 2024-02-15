@@ -93,3 +93,36 @@ export const ForecastHourByHourTitle = styled.Text`
   margin-bottom: 20px;
   margin-left: 12px;
 `;
+
+export const ForecastExtraInfosContainer = styled(ForecastHourByHourContainer)``;
+
+export const ForecastExtraInfosTitle = styled(ForecastHourByHourTitle)``;
+
+export const ForecastExtraInfoCard = styled.View`
+  width: 150px;
+  height: 150px;
+  border-radius: 8px;
+  background-color: ${props => props.theme.colors.shape};
+  padding: 12px;
+  margin-right: 10px;
+`;
+
+export const ForecastExtraInfoWrapper = styled.View`
+  justify-content: center;
+  flex: 1;
+`;
+
+export const ForecastExtraInfoIcon = styled.View`
+`;
+
+export const ForecastExtraInfoTitle = styled.Text`
+  font-size: 16px;
+  font-family: ${fonts.text};
+  color: ${props => props.theme.colors.gray}
+`
+
+export const ForecastExtraInfoValue = styled.Text`
+  font-size: 24px;
+  font-family: ${fonts.bold};
+  color: ${props => props.theme.colors.black}
+`;
