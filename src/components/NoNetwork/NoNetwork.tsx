@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Animation, MainMessage, Message } from "./styles";
 import NoNetworkAnimation from "../../animations/no-network.json";
-import Feather from "react-native-vector-icons/Feather";
+import { Feather } from "@expo/vector-icons";
 
 const NoNetwork: React.FC = () => {
   return (

@@ -1,18 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
-import Feather from "react-native-vector-icons/Feather";
-import AntDesign from "react-native-vector-icons/AntDesign";
+import { Feather, AntDesign } from "@expo/vector-icons";
 import Loading from "../../components/Loading/Loading";
 import I18n from "i18n-js";
 import api from "../../services/api";
 import { AdEventType, InterstitialAd } from "react-native-google-mobile-ads";
-import { useNavigation, useRoute } from "@react-navigation/core";
+import { useRoute } from "@react-navigation/core";
 import { API_KEY } from "../../secrets";
-import { Alert, StyleSheet } from "react-native";
+import { Alert } from "react-native";
 import { IForecast } from "../../ts/interfaces/IForecast";
 import { AdTypes, GetAdId } from "../../utils/ads";
 import { translate } from "../../translations";
 import { getWeatherAnimation } from "../../utils/icon";
-import { BlurView } from "@react-native-community/blur";
 import { useTheme } from "styled-components";
 import {
   Container,
@@ -44,11 +42,10 @@ import {
 import HourByHour from "../../components/HourByHour/HourByHour";
 import LottieView from "lottie-react-native";
 import { getCoordinates } from "../../utils/location";
-import { usePersistedState } from "../../hooks/usePersistedState";
 import { isLocationEnabled } from "react-native-android-location-enabler";
 import { StorageService } from "../../services/storage";
 import { isObjectEmpty } from "../../utils/objects";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 
 const Forecast: React.FC = () => {
   const [showedAd, setShowedAd] = useState(false);
@@ -135,15 +132,15 @@ const Forecast: React.FC = () => {
 
   const getUVText = (uv: number) => {
     if (uv <= 2) {
-      return "Baixo"
+      return "Baixo";
     } else if (uv > 2 && uv <= 5) {
-      return "Moderado"
+      return "Moderado";
     } else if (uv > 5 && uv <= 7) {
-      return "Alto"
+      return "Alto";
     } else {
-      return "Extremo"
+      return "Extremo";
     }
-  }
+  };
 
   const getAQIText = (aqi: number) => {
     if (aqi <= 50) {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import storage from "@react-native-async-storage/async-storage";
-import Feather from "react-native-vector-icons/Feather";
+import { Feather } from "@expo/vector-icons";
 import { Title } from "../../components/Custom/Custom";
 import {
   Button,

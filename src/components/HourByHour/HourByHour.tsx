@@ -1,6 +1,6 @@
 import { format, getHours, isBefore, isTomorrow, parseISO } from "date-fns";
-import React, { memo, useRef } from "react";
-import Feather from "react-native-vector-icons/Feather";
+import React, { useRef } from "react";
+import { Feather } from "@expo/vector-icons";
 import {
   HourByHourCard,
   HourByHourChanceRain,
@@ -22,7 +22,7 @@ const HourByHour = ({ fore, date }: IHourByHour) => {
     !isTomorrow(parseISO(date)) &&
     !isBefore(parseISO(fore.time), new Date()) &&
     getHours(parseISO(fore.time)) !== new Date().getHours();
-  const hours = new Date(fore.time).getHours()
+  const hours = new Date(fore.time).getHours();
   const isDayTime = hours > 6 && hours < 18;
 
   if (!isValidHour || !fore) return null;
