@@ -156,6 +156,11 @@ const Forecast: React.FC = () => {
       </CurrentForecastTemperatureContainer>
       <CurrentForecastFeelsLikeContainer>
         <CurrentForecastFeelsLikeText>
+          {`${Math.round(
+            forecast.forecast.forecastday[0].day.mintemp_c
+          )}° / ${Math.round(
+            forecast.forecast.forecastday[0].day.maxtemp_c
+          )}°`}{"\n"}
           {translate("forecast.feelsLike", {
             temp: `${Math.round(forecast.current.feelslike_c)}°C`,
           })}
