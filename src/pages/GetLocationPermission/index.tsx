@@ -148,7 +148,7 @@ const GetLocationPermission: React.FC<GetLocationPermissionProps> = () => {
     setIsRequestablePermission(requestable);
   };
 
-  useEffect(() => {
+  useEffect(() => {    
     checkPermission(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION).then(
       async (res) => {
         if (res.granted) {
@@ -170,7 +170,7 @@ const GetLocationPermission: React.FC<GetLocationPermissionProps> = () => {
 
   useEffect(() => {
     if (hasLocationPermission) {
-      storage.getItem("@Odin:lastLocation").then((lastLocation) => {
+      storage.getItem("@Odin:LastLocation").then((lastLocation) => {
         const parsedLastLocation = JSON.parse(lastLocation);
 
         if (!isObjectEmpty(parsedLastLocation) || isEnabledGPS) {
