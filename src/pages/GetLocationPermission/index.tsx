@@ -138,6 +138,12 @@ const GetLocationPermission: React.FC<GetLocationPermissionProps> = () => {
       PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
     );
 
+    if (granted) {
+      const GPSState = await isLocationEnabled();
+
+      setIsEnabledGPS(GPSState);
+    }
+
     setHasLocationPermission(granted);
     setIsRequestablePermission(requestable);
   };

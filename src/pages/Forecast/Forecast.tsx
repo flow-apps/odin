@@ -143,7 +143,7 @@ const Forecast: React.FC = () => {
             resizeMode="contain"
             autoPlay
             speed={0.4}
-            loop={false}
+            loop
             onAnimationFinish={handleStopAnimationOnLastFrame}
           />
         </CurrentForecastImageContainer>
