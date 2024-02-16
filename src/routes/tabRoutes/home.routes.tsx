@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTheme } from "styled-components";
 import { fonts } from "../../styles/fonts";
 import Home from "../../pages/Forecast"
+import { darken } from "polished";
 
 const tabRoutes = createBottomTabNavigator();
 
@@ -29,11 +30,16 @@ const HomeRoutes = () => {
           fontFamily: fonts["bold"],
         },
         tabBarStyle: {
+          position: "absolute",
+          bottom: 15,
+          borderRadius: 35,
+          width: "92%",
+          left: "4.5%",
           padding: 15,
           elevation: 10,
-          height: 70,
+          height: 80,
           zIndex: 90,
-          backgroundColor: `${colors.shape}`,
+          backgroundColor: darken(0.065, colors.shape),
           paddingBottom: 5,
         },
       }}

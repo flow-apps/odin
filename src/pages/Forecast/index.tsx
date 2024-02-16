@@ -46,12 +46,14 @@ import { isLocationEnabled } from "react-native-android-location-enabler";
 import { StorageService } from "../../services/storage";
 import { isObjectEmpty } from "../../utils/objects";
 import { format } from "date-fns";
+import { useConfigs } from "../../contexts/configs";
 
 const Forecast: React.FC = () => {
   const [showedAd, setShowedAd] = useState(false);
   const [forecast, setForecast] = useState<IForecast>();
 
   const route = useRoute();
+  const { userConfigs } = useConfigs();
   const { colors } = useTheme();
   const animationRef = useRef<LottieView>(null);
 
@@ -60,7 +62,7 @@ const Forecast: React.FC = () => {
 
   const interstitial = InterstitialAd.createForAdRequest(
     GetAdId(AdTypes.INTERSTITIAL)
-  );
+  );  
 
   const handleGetForecast = async (query: string) => {
     api
@@ -155,7 +157,9 @@ const Forecast: React.FC = () => {
   };
 
   return (
-    <Container>
+    <Container
+      contentContainerStyle={{ paddingBottom: 75 }}
+    >
       <CurrentForecastContainer>
         <CurrentForecastTitle>
           <Feather name="map-pin" size={18} /> {forecast.location.name}

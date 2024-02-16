@@ -15,6 +15,7 @@ import {
   Cabin_600SemiBold,
   Cabin_700Bold,
 } from "@expo-google-fonts/cabin";
+import { ConfigsControllerProvider } from "./src/contexts/configs";
 
 SplashScreen.show();
 
@@ -32,7 +33,10 @@ export default function App() {
   };
 
   const handleDone = async () => {
-    await storage.setItem("@Odin:ShowBoarding", JSON.stringify({ show: false }));
+    await storage.setItem(
+      "@Odin:ShowBoarding",
+      JSON.stringify({ show: false })
+    );
     return setShowBoarding(false);
   };
 
@@ -63,11 +67,13 @@ export default function App() {
 
   return (
     <ThemeControllerProvider>
-      {showBoarding ? (
-        <OnBoarding done={handleDone} skip={handleDone} />
-      ) : (
-        <AppRoutes />
-      )}
+      <ConfigsControllerProvider>
+        {showBoarding ? (
+          <OnBoarding done={handleDone} skip={handleDone} />
+        ) : (
+          <AppRoutes />
+        )}
+      </ConfigsControllerProvider>
     </ThemeControllerProvider>
   );
 }

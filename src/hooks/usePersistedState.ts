@@ -5,7 +5,7 @@ type Response<T> = [T, Dispatch<SetStateAction<T>>];
 
 const storage = new StorageService();
 
-function usePersistedState<T>(key: string, initialState: any): Response<T> {
+function usePersistedState<T>(key: string, initialState: T): Response<T> {
   const [state, setState] = useState<T>(initialState);
 
   useEffect(() => {
