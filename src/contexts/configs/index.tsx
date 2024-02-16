@@ -1,13 +1,11 @@
-import React, { useContext, createContext, useState, useEffect } from "react";
-import {
-  SpeedConfigMetrics,
-  TemperatureConfigMetrics,
-  UserConfigs,
-} from "./types";
+import React, { useContext, createContext, useEffect, useState } from "react";
+import { SpeedConfigUnit, TemperatureConfigUnit, UserConfigs } from "./types";
 import { usePersistedState } from "../../hooks/usePersistedState";
+import { StorageService } from "../../services/storage";
 
 interface ConfigsControllerContext {
-  userConfigs: UserConfigs;
+  userConfigs?: UserConfigs;
+  toggleConfig: (key: string, value: any) => void;
 }
 
 const ConfigsControllerContext = createContext<ConfigsControllerContext>(
@@ -17,15 +15,26 @@ const ConfigsControllerContext = createContext<ConfigsControllerContext>(
 const ConfigsControllerProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [userConfigs, setUserConfigs] = usePersistedState<UserConfigs>(
-    "@Odin:UserConfigs",
-    {
-      speedMetric: SpeedConfigMetrics.AUTO,
-      temperatureMetric: TemperatureConfigMetrics.AUTO,
-    }
-  );
+  const storage = new StorageService();
+  const [userConfigs, setUserConfigs] = useState<UserConfigs>(null);
 
-  const toggleConfig = (configKey: string, value: any) => {
+  useEffect(() => {
+    handleGetUserConfigs();
+  }, []);
+
+  const handleGetUserConfigs = async () => {
+    const savedUserConfigs = await storage.getItem("@Odin:UserConfigs");
+
+    if (savedUserConfigs) {
+      setUserConfigs(JSON.parse(savedUserConfigs));
+    }
+  };
+
+  const toggleConfig = async (configKey: string, value: any) => {
+    await storage.saveItem(
+      "@Odin:UserConfigs",
+      JSON.stringify({ ...userConfigs, [configKey]: value })
+    );
     setUserConfigs((old) => ({
       ...old,
       [configKey]: value,
@@ -33,7 +42,7 @@ const ConfigsControllerProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   return (
-    <ConfigsControllerContext.Provider value={{ userConfigs }}>
+    <ConfigsControllerContext.Provider value={{ userConfigs, toggleConfig }}>
       {children}
     </ConfigsControllerContext.Provider>
   );

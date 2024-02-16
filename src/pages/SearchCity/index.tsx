@@ -21,7 +21,7 @@ import { translate } from "../../translations/index";
 import { fonts } from "../../styles/fonts";
 import Header from "../../components/Header/Header";
 
-const Home: React.FC = () => {
+const SearchCity: React.FC = () => {
   const navigation = useNavigation<any>();
   const [city, setCity] = useState("");
 
@@ -79,4 +79,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default SearchCity;

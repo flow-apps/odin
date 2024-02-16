@@ -1,10 +1,12 @@
 import React from "react";
-import { MaterialIcons, Entypo } from "@expo/vector-icons";
+import { MaterialIcons, Entypo, Feather } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTheme } from "styled-components";
 import { fonts } from "../../styles/fonts";
 import Home from "../../pages/Forecast"
 import { darken } from "polished";
+import SearchCity from "../../pages/SearchCity";
+import Configurations from "../../pages/Configurations";
 
 const tabRoutes = createBottomTabNavigator();
 
@@ -22,7 +24,6 @@ const HomeRoutes = () => {
         // @ts-ignore
         tabBarKeyboardHidesTabBar: true,
         tabBarIconStyle: {
-          transform: [{ scale: 0.9 }],
           marginBottom: 5,
         },
         tabBarLabelStyle: {
@@ -55,7 +56,7 @@ const HomeRoutes = () => {
         }}
       />
       <tabRoutes.Screen
-        component={Home}
+        component={SearchCity}
         name="SearchCity"
         options={{
           tabBarShowLabel: false,
@@ -66,6 +67,16 @@ const HomeRoutes = () => {
       />
       <tabRoutes.Screen
         component={Home}
+        name="Notifications"
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="bell" size={size + 4} color={color} />
+          ),
+        }}
+      />
+      <tabRoutes.Screen
+        component={Configurations}
         name="Configurations"
         options={{
           tabBarShowLabel: false,

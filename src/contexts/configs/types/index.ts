@@ -1,16 +1,16 @@
-export enum TemperatureConfigMetrics {
+export enum TemperatureConfigUnit {
   AUTO = 0,
   CELSIUS = 1,
   FAHRENHEIT = 2,
 }
 
-export enum SpeedConfigMetrics {
+export enum SpeedConfigUnit {
   AUTO = 0,
   KM = 1,
   MILE = 2,
 }
 
 export interface UserConfigs {
-  speedMetric: SpeedConfigMetrics;
-  temperatureMetric: TemperatureConfigMetrics;
+  speedUnit: SpeedConfigUnit;
+  temperatureUnit: TemperatureConfigUnit;
 }
