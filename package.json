@@ -23,6 +23,7 @@
     "date-fns": "^3.3.1",
     "expo": "~50.0.6",
     "expo-font": "~11.10.2",
+    "expo-localization": "~14.8.3",
     "expo-status-bar": "~1.11.1",
     "expo-updates": "~0.24.10",
     "i18n-js": "^3.8.0",

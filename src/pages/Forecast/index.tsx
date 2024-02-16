@@ -47,6 +47,11 @@ import { StorageService } from "../../services/storage";
 import { isObjectEmpty } from "../../utils/objects";
 import { format } from "date-fns";
 import { useConfigs } from "../../contexts/configs";
+import { getSpeedUnit, getTemperatureUnit } from "../../utils/unit";
+import {
+  SpeedConfigUnit,
+  TemperatureConfigUnit,
+} from "../../contexts/configs/types";
 
 const Forecast: React.FC = () => {
   const [showedAd, setShowedAd] = useState(false);
@@ -62,7 +67,7 @@ const Forecast: React.FC = () => {
 
   const interstitial = InterstitialAd.createForAdRequest(
     GetAdId(AdTypes.INTERSTITIAL)
-  );  
+  );
 
   const handleGetForecast = async (query: string) => {
     api
@@ -157,9 +162,7 @@ const Forecast: React.FC = () => {
   };
 
   return (
-    <Container
-      contentContainerStyle={{ paddingBottom: 75 }}
-    >
+    <Container contentContainerStyle={{ paddingBottom: 75 }}>
       <CurrentForecastContainer>
         <CurrentForecastTitle>
           <Feather name="map-pin" size={18} /> {forecast.location.name}
@@ -177,25 +180,46 @@ const Forecast: React.FC = () => {
             resizeMode="contain"
             autoPlay
             speed={0.4}
-            loop
+            loop={false}
             onAnimationFinish={handleStopAnimationOnLastFrame}
           />
         </CurrentForecastImageContainer>
       </CurrentForecastContainer>
       <CurrentForecastTemperatureContainer>
         <CurrentForecastTemperatureText>
-          {Math.round(forecast.current.temp_c)}
-          <TextSup>°</TextSup> C
+          {Math.round(
+            getTemperatureUnit(userConfigs) === TemperatureConfigUnit.CELSIUS
+              ? forecast.current.temp_c
+              : forecast.current.temp_f
+          )}
+          <TextSup>°</TextSup>{" "}
+          {getTemperatureUnit(userConfigs) === TemperatureConfigUnit.CELSIUS
+            ? "C"
+            : "F"}
         </CurrentForecastTemperatureText>
       </CurrentForecastTemperatureContainer>
       <CurrentForecastFeelsLikeContainer>
         <CurrentForecastFeelsLikeText>
           {`${Math.round(
-            forecast.forecast.forecastday[0].day.mintemp_c
-          )}° / ${Math.round(forecast.forecast.forecastday[0].day.maxtemp_c)}°`}
+            getTemperatureUnit(userConfigs) === TemperatureConfigUnit.CELSIUS
+              ? forecast.forecast.forecastday[0].day.mintemp_c
+              : forecast.forecast.forecastday[0].day.mintemp_f
+          )}° / ${Math.round(
+            getTemperatureUnit(userConfigs) === TemperatureConfigUnit.CELSIUS
+              ? forecast.forecast.forecastday[0].day.maxtemp_c
+              : forecast.forecast.forecastday[0].day.maxtemp_f
+          )}°`}
           {"\n"}
           {translate("forecast.feelsLike", {
-            temp: `${Math.round(forecast.current.feelslike_c)}°C`,
+            temp: `${Math.round(
+              getTemperatureUnit(userConfigs) === TemperatureConfigUnit.CELSIUS
+                ? forecast.current.feelslike_c
+                : forecast.current.feelslike_f
+            )}${
+              getTemperatureUnit(userConfigs) === TemperatureConfigUnit.CELSIUS
+                ? "°C"
+                : "°F"
+            }`,
           })}
         </CurrentForecastFeelsLikeText>
       </CurrentForecastFeelsLikeContainer>
@@ -208,7 +232,12 @@ const Forecast: React.FC = () => {
         <CurrentForecastExtraWrapper>
           <Feather name="wind" size={22} color={colors.black} />
           <CurrentForecastExtraText>
-            {Math.round(forecast.current.wind_kph)} Km/h
+            {Math.round(
+              getSpeedUnit(userConfigs) === SpeedConfigUnit.KM
+                ? forecast.current.wind_kph
+                : forecast.current.wind_mph
+            )}{" "}
+            {getSpeedUnit(userConfigs) === SpeedConfigUnit.KM ? "Km/h" : "M/h"}
           </CurrentForecastExtraText>
         </CurrentForecastExtraWrapper>
         <CurrentForecastExtraWrapper>
@@ -301,7 +330,12 @@ const Forecast: React.FC = () => {
           <ForecastExtraInfoWrapper>
             <ForecastExtraInfoTitle>Visibilidade</ForecastExtraInfoTitle>
             <ForecastExtraInfoValue>
-              {forecast.current.vis_km} Km
+              {getSpeedUnit(userConfigs) === SpeedConfigUnit.KM
+                ? forecast.current.vis_km
+                : forecast.current.vis_miles}{" "}
+              {getSpeedUnit(userConfigs) === SpeedConfigUnit.KM
+                ? "Km"
+                : "Milhas"}
             </ForecastExtraInfoValue>
           </ForecastExtraInfoWrapper>
         </ForecastExtraInfoCard>

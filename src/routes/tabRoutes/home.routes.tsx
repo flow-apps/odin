@@ -35,7 +35,7 @@ const HomeRoutes = () => {
           bottom: 15,
           borderRadius: 35,
           width: "92%",
-          left: "4.5%",
+          left: "5%",
           padding: 15,
           elevation: 10,
           height: 80,

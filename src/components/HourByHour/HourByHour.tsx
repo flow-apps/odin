@@ -10,6 +10,9 @@ import {
 } from "./styles";
 import { getWeatherAnimation } from "../../utils/icon";
 import LottieView from "lottie-react-native";
+import { getTemperatureUnit } from "../../utils/unit";
+import { useConfigs } from "../../contexts/configs";
+import { TemperatureConfigUnit } from "../../contexts/configs/types";
 
 interface IHourByHour {
   fore: any;
@@ -17,6 +20,7 @@ interface IHourByHour {
 }
 
 const HourByHour = ({ fore, date }: IHourByHour) => {
+  const { userConfigs } = useConfigs();
   const animationRef = useRef<LottieView>(null);
   const isValidHour =
     !isTomorrow(parseISO(date)) &&
@@ -44,7 +48,16 @@ const HourByHour = ({ fore, date }: IHourByHour) => {
         speed={0.2}
       />
       <HourByHourTime>{format(parseISO(fore.time), "HH:mm")}</HourByHourTime>
-      <HourByHourTemperature>{Math.round(fore.temp_c)}°C</HourByHourTemperature>
+      <HourByHourTemperature>
+        {Math.round(
+          getTemperatureUnit(userConfigs) === TemperatureConfigUnit.CELSIUS
+            ? fore.temp_c
+            : fore.temp_f
+        )}
+        {getTemperatureUnit(userConfigs) === TemperatureConfigUnit.CELSIUS
+          ? "°C"
+          : "°F"}
+      </HourByHourTemperature>
       <HourByHourChanceRain>
         <Feather name="cloud-rain" size={18} /> {fore.chance_of_rain}%
       </HourByHourChanceRain>
