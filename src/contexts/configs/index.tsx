@@ -5,7 +5,7 @@ import { StorageService } from "../../services/storage";
 
 interface ConfigsControllerContext {
   userConfigs?: UserConfigs;
-  toggleConfig: (key: string, value: any) => void;
+  toggleConfig: (key: string, value: any) => Promise<void>;
 }
 
 const ConfigsControllerContext = createContext<ConfigsControllerContext>(
@@ -16,7 +16,10 @@ const ConfigsControllerProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const storage = new StorageService();
-  const [userConfigs, setUserConfigs] = useState<UserConfigs>(null);
+  const [userConfigs, setUserConfigs] = useState<UserConfigs>({
+    temperatureUnit: TemperatureConfigUnit.AUTO,
+    speedUnit: SpeedConfigUnit.AUTO
+  });
 
   useEffect(() => {
     handleGetUserConfigs();
@@ -26,7 +29,11 @@ const ConfigsControllerProvider: React.FC<{ children: React.ReactNode }> = ({
     const savedUserConfigs = await storage.getItem("@Odin:UserConfigs");
 
     if (savedUserConfigs) {
-      setUserConfigs(JSON.parse(savedUserConfigs));
+      const parsedConfigs = JSON.parse(savedUserConfigs)
+      
+      Object.keys(parsedConfigs).map(key => {
+        setUserConfigs(old => ({ ...old, [key]: parsedConfigs[key] }))
+      })
     }
   };
 

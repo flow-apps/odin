@@ -9,11 +9,11 @@ import * as RNLocalize from "react-native-localize";
 import RNRestart from "react-native-restart";
 import { setI18nConfig } from "./src/translations/index";
 import { ThemeControllerProvider } from "./src/contexts/theme";
-import { useFonts } from "expo-font";
 import {
   Cabin_400Regular,
   Cabin_600SemiBold,
   Cabin_700Bold,
+  useFonts
 } from "@expo-google-fonts/cabin";
 import { ConfigsControllerProvider } from "./src/contexts/configs";
 

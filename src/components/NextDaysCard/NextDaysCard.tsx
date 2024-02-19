@@ -1,6 +1,6 @@
 import { format, parseISO } from "date-fns";
 import React, { memo } from "react";
-import { Feather } from "@expo/vector-icons";
+import Feather from "react-native-vector-icons/Feather";
 import {
   NextDaysCard,
   NextDaysDay,

@@ -3,6 +3,7 @@
     "name": "odin",
     "slug": "odin",
     "version": "1.0.0",
+    "jsEngine": "hermes",
     "assetBundlePatterns": [
       "**/*"
     ],

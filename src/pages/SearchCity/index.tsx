@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import storage from "@react-native-async-storage/async-storage";
-import { Feather } from "@expo/vector-icons";
+import Feather from "react-native-vector-icons/Feather";
 import { Title } from "../../components/Custom/Custom";
 import {
   Button,
@@ -15,11 +15,8 @@ import {
   SearchContainer,
 } from "./styles";
 
-import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
-import { GetAdId, AdTypes } from "../../utils/ads";
 import { translate } from "../../translations/index";
 import { fonts } from "../../styles/fonts";
-import Header from "../../components/Header/Header";
 
 const SearchCity: React.FC = () => {
   const navigation = useNavigation<any>();
@@ -40,7 +37,7 @@ const SearchCity: React.FC = () => {
       );
 
     await storage.setItem("@Odin:City", city);
-    return navigation.navigate("Forecast", { city });
+    return navigation.navigate("HomeTab", { city });
   };
 
   return (

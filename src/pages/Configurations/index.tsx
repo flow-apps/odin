@@ -8,7 +8,8 @@ import {
   ConfigsTitle,
   Container,
 } from "./styles";
-import { Feather, Ionicons } from "@expo/vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import Feather from "react-native-vector-icons/Feather";
 import Radio from "../../components/Inputs/Radio";
 import {
   SpeedConfigUnit,

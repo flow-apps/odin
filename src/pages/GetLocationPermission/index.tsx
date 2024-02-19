@@ -25,11 +25,6 @@ import { isObjectEmpty } from "../../utils/objects";
 interface GetLocationPermissionProps {}
 
 const GetLocationPermission: React.FC<GetLocationPermissionProps> = () => {
-  const [lastLocation] = usePersistedState<{
-    lat: number;
-    lng: number;
-  }>("@Odin:LastLocation", {});
-
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
   const [isRequestablePermission, setIsRequestablePermission] = useState(false);
   const [isEnabledGPS, setIsEnabledGPS] = useState(false);
@@ -82,7 +77,7 @@ const GetLocationPermission: React.FC<GetLocationPermissionProps> = () => {
         );
       }
     } else {
-      if (isObjectEmpty(lastLocation) && !isEnabledGPS) {
+      if (!isEnabledGPS) {
         return (
           <>
             <GetPermissionTitle>
@@ -119,9 +114,7 @@ const GetLocationPermission: React.FC<GetLocationPermissionProps> = () => {
     if (Platform.OS === "android") {
       try {
         const enableResult = await promptForEnableLocationIfNeeded();
-        console.log("enableResult", enableResult);
-
-        if (enableResult === "enabled") {
+        if (enableResult === "enabled" || enableResult === "already-enabled") {
           setIsEnabledGPS(true);
           return;
         }
@@ -140,7 +133,6 @@ const GetLocationPermission: React.FC<GetLocationPermissionProps> = () => {
 
     if (granted) {
       const GPSState = await isLocationEnabled();
-
       setIsEnabledGPS(GPSState);
     }
 
@@ -187,7 +179,7 @@ const GetLocationPermission: React.FC<GetLocationPermissionProps> = () => {
         <Animation
           source={require("../../animations/location.json")}
           autoPlay
-          loop={false}
+          loop
         />
       </AnimationContainer>
       {renderScreen()}

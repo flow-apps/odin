@@ -1,6 +1,6 @@
 import { format, getHours, isBefore, isTomorrow, parseISO } from "date-fns";
 import React, { useRef } from "react";
-import { Feather } from "@expo/vector-icons";
+import Feather from "react-native-vector-icons/Feather";
 import {
   HourByHourCard,
   HourByHourChanceRain,

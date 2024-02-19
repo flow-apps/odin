@@ -1,5 +1,7 @@
 import React from "react";
-import { MaterialIcons, Entypo, Feather } from "@expo/vector-icons";
+import Feather from "react-native-vector-icons/Feather";
+import Entypo from "react-native-vector-icons/Entypo";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTheme } from "styled-components";
 import { fonts } from "../../styles/fonts";
@@ -18,6 +20,7 @@ const HomeRoutes = () => {
       screenOptions={{
         // @ts-ignore
         headerShown: false,
+        tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.black,
         tabBarLabelPosition: "below-icon",
@@ -50,8 +53,9 @@ const HomeRoutes = () => {
         name="HomeTab"
         options={{
           tabBarShowLabel: false,
+          unmountOnBlur: true,
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="home" size={size + 10} color={color} />
+            <MaterialIcons name="home" size={size} color={color} />
           ),
         }}
       />
@@ -61,7 +65,7 @@ const HomeRoutes = () => {
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="search" size={size + 10} color={color} />
+            <MaterialIcons name="search" size={size} color={color} />
           ),
         }}
       />
@@ -71,7 +75,7 @@ const HomeRoutes = () => {
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ color, size }) => (
-            <Feather name="bell" size={size + 4} color={color} />
+            <Feather name="bell" size={size - 2} color={color} />
           ),
         }}
       />
@@ -81,7 +85,7 @@ const HomeRoutes = () => {
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ color, size }) => (
-            <Entypo name="cog" size={size + 6} color={color} />
+            <Entypo name="cog" size={size - 2} color={color} />
           ),
         }}
       />

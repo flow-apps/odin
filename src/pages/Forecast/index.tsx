@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Feather, AntDesign } from "@expo/vector-icons";
+import Feather from "react-native-vector-icons/Feather";
+import AntDesign from "react-native-vector-icons/AntDesign";
 import Loading from "../../components/Loading/Loading";
 import I18n from "i18n-js";
 import api from "../../services/api";
 import { AdEventType, InterstitialAd } from "react-native-google-mobile-ads";
 import { useRoute } from "@react-navigation/core";
 import { API_KEY } from "../../secrets";
-import { Alert } from "react-native";
+import { Alert, RefreshControl } from "react-native";
 import { IForecast } from "../../ts/interfaces/IForecast";
 import { AdTypes, GetAdId } from "../../utils/ads";
 import { translate } from "../../translations";
@@ -56,6 +57,7 @@ import {
 const Forecast: React.FC = () => {
   const [showedAd, setShowedAd] = useState(false);
   const [forecast, setForecast] = useState<IForecast>();
+  const [refreshing, setRefreshing] = useState(false);
 
   const route = useRoute();
   const { userConfigs } = useConfigs();
@@ -118,6 +120,12 @@ const Forecast: React.FC = () => {
     }
   };
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await handleOpenForecast();
+    setRefreshing(false);
+  };
+
   useEffect(() => {
     handleOpenForecast();
   }, []);
@@ -162,7 +170,15 @@ const Forecast: React.FC = () => {
   };
 
   return (
-    <Container contentContainerStyle={{ paddingBottom: 75 }}>
+    <Container
+      contentContainerStyle={{ paddingBottom: 75 }}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      }
+    >
       <CurrentForecastContainer>
         <CurrentForecastTitle>
           <Feather name="map-pin" size={18} /> {forecast.location.name}
@@ -291,7 +307,7 @@ const Forecast: React.FC = () => {
           <ForecastExtraInfoWrapper>
             <ForecastExtraInfoTitle>Última atualização</ForecastExtraInfoTitle>
             <ForecastExtraInfoValue>
-              {format(new Date(forecast.current.last_updated), "HH:mm")}
+              {format(new Date(), "HH:mm")}
             </ForecastExtraInfoValue>
           </ForecastExtraInfoWrapper>
         </ForecastExtraInfoCard>
