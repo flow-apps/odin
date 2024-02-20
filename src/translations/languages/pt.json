@@ -69,7 +69,7 @@
     "alerts": {
       "cityNotFound": {
         "title": "Cidade não encontrada",
-        "content": "A cidade '{{city}}' não foi encontrada! Reveja o nome ou tenta novamente em alguns segundos!"
+        "content": "Reveja o nome ou tenta novamente em alguns segundos!"
       }
     }
   }

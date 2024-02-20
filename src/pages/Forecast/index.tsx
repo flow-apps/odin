@@ -71,7 +71,7 @@ const Forecast: React.FC = () => {
     GetAdId(AdTypes.INTERSTITIAL)
   );
 
-  const handleGetForecast = async (query: string) => {
+  const handleGetForecast = async (query: string) => {    
     api
       .get(
         `/forecast.json?key=${API_KEY}&q=${query}&days=3&aqi=yes&alerts=no&lang=${I18n.currentLocale()}`
@@ -150,7 +150,7 @@ const Forecast: React.FC = () => {
       return "Baixo";
     } else if (uv > 2 && uv <= 5) {
       return "Moderado";
-    } else if (uv > 5 && uv <= 7) {
+    } else if (uv > 5 && uv <= 11) {
       return "Alto";
     } else {
       return "Extremo";

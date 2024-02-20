@@ -41,7 +41,7 @@ const HomeRoutes = () => {
           left: "5%",
           padding: 15,
           elevation: 10,
-          height: 80,
+          height: 65,
           zIndex: 90,
           backgroundColor: darken(0.065, colors.shape),
           paddingBottom: 5,
