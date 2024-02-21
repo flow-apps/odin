@@ -12,6 +12,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Feather from "react-native-vector-icons/Feather";
 import Radio from "../../components/Inputs/Radio";
 import {
+  ForecastNotify,
   SpeedConfigUnit,
   TemperatureConfigUnit,
 } from "../../contexts/configs/types";
@@ -37,12 +38,28 @@ const Configurations: React.FC = () => {
           <ConfigInputContainer>
             <Radio
               currentValue={currentThemeName}
-              onChangeValue={async (value) =>
-                await toggleTheme(value)
-              }
+              onChangeValue={async (value) => await toggleTheme(value)}
               buttons={[
                 { label: "Claro", value: "light" },
                 { label: "Escuro", value: "dark" },
+              ]}
+            />
+          </ConfigInputContainer>
+        </ConfigWrapper>
+
+        <ConfigWrapper>
+          <ConfigLabel>
+            <Feather name="bell" size={18} /> Receber notificações
+          </ConfigLabel>
+          <ConfigInputContainer>
+            <Radio
+              currentValue={userConfigs.forecastNotify}
+              onChangeValue={async (value) =>
+                await toggleConfig("forecastNotify", value)
+              }
+              buttons={[
+                { label: "Sim", value: ForecastNotify.YES },
+                { label: "Não", value: ForecastNotify.NO },
               ]}
             />
           </ConfigInputContainer>
@@ -92,6 +109,7 @@ const Configurations: React.FC = () => {
             />
           </ConfigInputContainer>
         </ConfigWrapper>
+
       </ConfigsContainer>
     </Container>
   );

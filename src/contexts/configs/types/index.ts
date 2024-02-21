@@ -10,7 +10,13 @@ export enum SpeedConfigUnit {
   MILE = 2,
 }
 
+export enum ForecastNotify {
+  NO = 0,
+  YES = 1,
+}
+
 export interface UserConfigs {
   speedUnit: SpeedConfigUnit;
   temperatureUnit: TemperatureConfigUnit;
+  forecastNotify: ForecastNotify;
 }

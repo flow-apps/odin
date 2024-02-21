@@ -1,6 +1,5 @@
 import React, { useContext, createContext, useEffect, useState } from "react";
-import { SpeedConfigUnit, TemperatureConfigUnit, UserConfigs } from "./types";
-import { usePersistedState } from "../../hooks/usePersistedState";
+import { ForecastNotify, SpeedConfigUnit, TemperatureConfigUnit, UserConfigs } from "./types";
 import { StorageService } from "../../services/storage";
 
 interface ConfigsControllerContext {
@@ -18,7 +17,8 @@ const ConfigsControllerProvider: React.FC<{ children: React.ReactNode }> = ({
   const storage = new StorageService();
   const [userConfigs, setUserConfigs] = useState<UserConfigs>({
     temperatureUnit: TemperatureConfigUnit.AUTO,
-    speedUnit: SpeedConfigUnit.AUTO
+    speedUnit: SpeedConfigUnit.AUTO,
+    forecastNotify: ForecastNotify.NO
   });
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const ConfigsControllerProvider: React.FC<{ children: React.ReactNode }> = ({
     if (savedUserConfigs) {
       const parsedConfigs = JSON.parse(savedUserConfigs)
       
-      Object.keys(parsedConfigs).map(key => {
+      Object.keys(parsedConfigs).map(key => {        
         setUserConfigs(old => ({ ...old, [key]: parsedConfigs[key] }))
       })
     }
