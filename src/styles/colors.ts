@@ -19,7 +19,7 @@ export const lightColors = {
     white: "#fff",
     background: "#e9e9e9",
     gray: "#444",
-    shape: darken(0.1, "#e9e9e9"),
+    shape: "#fff",
     primary: "#5773ff"
   }
 }

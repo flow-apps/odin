@@ -40,7 +40,7 @@ const HomeRoutes = () => {
           width: "92%",
           left: "5%",
           padding: 15,
-          elevation: 10,
+          elevation: 5,
           height: 65,
           zIndex: 90,
           backgroundColor: darken(0.065, colors.shape),
@@ -69,7 +69,7 @@ const HomeRoutes = () => {
           ),
         }}
       />
-      <tabRoutes.Screen
+      {/* <tabRoutes.Screen
         component={Home}
         name="Notifications"
         options={{
@@ -78,7 +78,7 @@ const HomeRoutes = () => {
             <Feather name="bell" size={size - 2} color={color} />
           ),
         }}
-      />
+      /> */}
       <tabRoutes.Screen
         component={Configurations}
         name="Configurations"

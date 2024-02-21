@@ -38,6 +38,8 @@ import {
   ForecastExtraInfosTitle,
   ForecastHourByHourContainer,
   ForecastHourByHourTitle,
+  ShowCurrentLocationButton,
+  ShowCurrentLocationText,
   TextSup,
 } from "./styles";
 import HourByHour from "../../components/HourByHour/HourByHour";
@@ -71,7 +73,7 @@ const Forecast: React.FC = () => {
     GetAdId(AdTypes.INTERSTITIAL)
   );
 
-  const handleGetForecast = async (query: string) => {    
+  const handleGetForecast = async (query: string) => {
     api
       .get(
         `/forecast.json?key=${API_KEY}&q=${query}&days=3&aqi=yes&alerts=no&lang=${I18n.currentLocale()}`
@@ -126,6 +128,12 @@ const Forecast: React.FC = () => {
     setRefreshing(false);
   };
 
+  const showCurrentLocation = async () => {
+    params.city = undefined;
+    await onRefresh();
+    animationRef.current.play()
+  };
+
   useEffect(() => {
     handleOpenForecast();
   }, []);
@@ -173,10 +181,7 @@ const Forecast: React.FC = () => {
     <Container
       contentContainerStyle={{ paddingBottom: 75 }}
       refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-        />
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
       <CurrentForecastContainer>
@@ -186,6 +191,13 @@ const Forecast: React.FC = () => {
             , {forecast.location.country}
           </CurrentForecastCountryTitle>
         </CurrentForecastTitle>
+        {params && !!params.city && (
+          <ShowCurrentLocationButton onPress={showCurrentLocation}>
+            <ShowCurrentLocationText>
+              Ver localização atual
+            </ShowCurrentLocationText>
+          </ShowCurrentLocationButton>
+        )}
         <CurrentForecastImageContainer>
           <CurrentForecastImage
             ref={animationRef}
@@ -196,7 +208,7 @@ const Forecast: React.FC = () => {
             resizeMode="contain"
             autoPlay
             speed={0.4}
-            loop={false}
+            loop
             onAnimationFinish={handleStopAnimationOnLastFrame}
           />
         </CurrentForecastImageContainer>

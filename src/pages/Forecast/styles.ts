@@ -6,6 +6,16 @@ export const Container = styled.ScrollView`
   background-color: ${(props) => props.theme.colors.background};
 `;
 
+export const ShowCurrentLocationButton = styled.TouchableOpacity``;
+
+export const ShowCurrentLocationText = styled.Text`
+  margin-bottom: -10px;
+  text-align: center;
+  margin-top: 15px;
+  color: ${(props) => props.theme.colors.primary};
+  font-family: ${fonts.text};
+`;
+
 export const CurrentForecastContainer = styled.View`
   margin-top: 50px;
 `;
@@ -15,7 +25,6 @@ export const CurrentForecastTitle = styled.Text`
   font-family: ${fonts.bold};
   text-align: center;
   font-size: 18px;
-  margin-bottom: -10px;
 `;
 
 export const CurrentForecastCountryTitle = styled.Text`
@@ -94,7 +103,9 @@ export const ForecastHourByHourTitle = styled.Text`
   margin-left: 12px;
 `;
 
-export const ForecastExtraInfosContainer = styled(ForecastHourByHourContainer)``;
+export const ForecastExtraInfosContainer = styled(
+  ForecastHourByHourContainer
+)``;
 
 export const ForecastExtraInfosTitle = styled(ForecastHourByHourTitle)``;
 
@@ -102,7 +113,7 @@ export const ForecastExtraInfoCard = styled.View`
   width: 150px;
   height: 150px;
   border-radius: 8px;
-  background-color: ${props => props.theme.colors.shape};
+  background-color: ${(props) => props.theme.colors.shape};
   padding: 12px;
   margin-right: 10px;
 `;
@@ -112,17 +123,16 @@ export const ForecastExtraInfoWrapper = styled.View`
   flex: 1;
 `;
 
-export const ForecastExtraInfoIcon = styled.View`
-`;
+export const ForecastExtraInfoIcon = styled.View``;
 
 export const ForecastExtraInfoTitle = styled.Text`
   font-size: 16px;
   font-family: ${fonts.text};
-  color: ${props => props.theme.colors.gray}
-`
+  color: ${(props) => props.theme.colors.gray};
+`;
 
 export const ForecastExtraInfoValue = styled.Text`
   font-size: 24px;
   font-family: ${fonts.bold};
-  color: ${props => props.theme.colors.black}
+  color: ${(props) => props.theme.colors.black};
 `;
