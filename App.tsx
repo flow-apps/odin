@@ -16,11 +16,19 @@ import {
   useFonts
 } from "@expo-google-fonts/cabin";
 import { ConfigsControllerProvider } from "./src/contexts/configs";
+import {
+  reloadAsync,
+  fetchUpdateAsync,
+  checkForUpdateAsync,
+} from "expo-updates";
+
+import * as Constants from "expo-constants";
 
 SplashScreen.show();
 
 export default function App() {
   const [showBoarding, setShowBoarding] = useState<boolean>();
+  const [readyApp, setReadyApp] = useState(false);
   const [fontsLoaded] = useFonts({
     Cabin_400Regular,
     Cabin_600SemiBold,
@@ -61,7 +69,36 @@ export default function App() {
     });
   }, []);
 
-  if (fontsLoaded) {
+  useEffect(() => {
+    (async () => {
+      if (__DEV__ || Constants.default.debugMode) {
+        setReadyApp(true);
+        return;
+      }
+
+      const { isAvailable } = await checkForUpdateAsync()
+        .then((result) => result)
+        .catch(() => {
+          return { isAvailable: false };
+        });
+
+      if (isAvailable) {
+        await fetchUpdateAsync().then(async (value) => {
+          if (value.isNew) {
+            await reloadAsync();
+            return;
+          } else {
+            setReadyApp(true);
+          }
+        });
+      } else {
+        setReadyApp(true);
+      }
+    })();
+  }, []);
+
+
+  if (fontsLoaded && readyApp) {
     SplashScreen.hide();
   }
 
