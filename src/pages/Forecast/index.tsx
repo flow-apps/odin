@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Feather from "react-native-vector-icons/Feather";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Loading from "../../components/Loading/Loading";
@@ -131,21 +131,29 @@ const Forecast: React.FC = () => {
   const showCurrentLocation = async () => {
     params.city = undefined;
     await onRefresh();
-    animationRef.current.play()
   };
 
   useEffect(() => {
     handleOpenForecast();
   }, []);
 
-  if (!forecast) {
+  const renderAnimation = useCallback(() => {
     return (
-      <Loading
-        message={translate("loadings.getCityForecast")}
-        showInterstitialAd
-      />
+      <CurrentForecastImageContainer>
+        <CurrentForecastImage
+          ref={animationRef}
+          source={getWeatherAnimation(
+            forecast.current.condition.code,
+            !Boolean(forecast.current.is_day)
+          )}
+          resizeMode="contain"
+          autoPlay
+          speed={0.4}
+          loop
+        />
+      </CurrentForecastImageContainer>
     );
-  }
+  }, [forecast]);
 
   const handleStopAnimationOnLastFrame = () => {
     if (animationRef.current) {
@@ -177,6 +185,15 @@ const Forecast: React.FC = () => {
     }
   };
 
+  if (!forecast) {
+    return (
+      <Loading
+        message={translate("loadings.getCityForecast")}
+        showInterstitialAd
+      />
+    );
+  }
+
   return (
     <Container
       contentContainerStyle={{ paddingBottom: 75 }}
@@ -198,20 +215,7 @@ const Forecast: React.FC = () => {
             </ShowCurrentLocationText>
           </ShowCurrentLocationButton>
         )}
-        <CurrentForecastImageContainer>
-          <CurrentForecastImage
-            ref={animationRef}
-            source={getWeatherAnimation(
-              forecast.current.condition.code,
-              !Boolean(forecast.current.is_day)
-            )}
-            resizeMode="contain"
-            autoPlay
-            speed={0.4}
-            loop
-            onAnimationFinish={handleStopAnimationOnLastFrame}
-          />
-        </CurrentForecastImageContainer>
+        {renderAnimation()}
       </CurrentForecastContainer>
       <CurrentForecastTemperatureContainer>
         <CurrentForecastTemperatureText>

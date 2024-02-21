@@ -14,6 +14,7 @@ export const ShowCurrentLocationText = styled.Text`
   margin-top: 15px;
   color: ${(props) => props.theme.colors.primary};
   font-family: ${fonts.text};
+  font-size: 18px;
 `;
 
 export const CurrentForecastContainer = styled.View`

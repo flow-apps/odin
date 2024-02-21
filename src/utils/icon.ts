@@ -9,43 +9,54 @@ const sleet = [
   1204, 1207, 1237, 1249, 1252, 1261, 1264, 1069, 1072, 1168, 1171, 1198, 1201,
 ];
 
+import sunnyIcon from "../animations/weather/sunny.json";
+import moonIcon from "../animations/weather/sunny.json";
+import cloudyIcon from "../animations/weather/cloudy.json";
+import partlyCloudyDayIcon from "../animations/weather/partly-cloudy-day.json";
+import partlyCloudyNightIcon from "../animations/weather/partly-cloudy-night.json";
+import mistIcon from "../animations/weather/mist.json";
+import rainIcon from "../animations/weather/rain.json";
+import stormIcon from "../animations/weather/storm.json";
+import snowIcon from "../animations/weather/snow.json";
+import sleetIcon from "../animations/weather/sleet.json";
+
 export const getWeatherAnimation = (iconCode: number, isNight: boolean) => {
   if (iconCode === 1000) {
     if (isNight) {
-      return require("../animations/weather/moon.json");
+      return moonIcon;
     }
-    return require("../animations/weather/sunny.json");
+    return sunnyIcon;
   }
 
   if (iconCode === 1003) {
     if (isNight) {
-      return require("../animations/weather/partly-cloudy-night.json");
+      return partlyCloudyNightIcon;
     }
-    return require("../animations/weather/partly-cloudy-day.json");
+    return partlyCloudyDayIcon;
   }
 
   if (cloudy.includes(iconCode)) {
-    return require("../animations/weather/cloudy.json");
+    return cloudyIcon;
   }
 
   if (mist.includes(iconCode)) {
-    return require("../animations/weather/mist.json");
+    return mistIcon;
   }
 
   if (rain.includes(iconCode)) {
-    return require("../animations/weather/rain.json");
+    return rainIcon;
   }
 
   if (storm.includes(iconCode)) {
-    return require("../animations/weather/storm.json");
+    return stormIcon;
   }
 
   if (snow.includes(iconCode)) {
-    return require("../animations/weather/snow.json");
+    return snowIcon;
   }
 
   if (sleet.includes(iconCode)) {
-    return require("../animations/weather/sleet.json");
+    return sleetIcon;
   }
 
   return "";

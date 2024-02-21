@@ -97,7 +97,6 @@ export default function App() {
     })();
   }, []);
 
-
   if (fontsLoaded && readyApp) {
     SplashScreen.hide();
   }
