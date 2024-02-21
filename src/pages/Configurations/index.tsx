@@ -16,14 +16,38 @@ import {
   TemperatureConfigUnit,
 } from "../../contexts/configs/types";
 import { useConfigs } from "../../contexts/configs";
+import { useThemeController } from "../../contexts/theme";
 
 const Configurations: React.FC = () => {
+  const { currentThemeName, toggleTheme } = useThemeController();
   const { userConfigs, toggleConfig } = useConfigs();
 
   return (
     <Container>
       <ConfigsTitle>Configurações</ConfigsTitle>
       <ConfigsContainer>
+        <ConfigWrapper>
+          <ConfigLabel>
+            <Feather
+              name={currentThemeName === "light" ? "sun" : "moon"}
+              size={18}
+            />{" "}
+            Tema
+          </ConfigLabel>
+          <ConfigInputContainer>
+            <Radio
+              currentValue={currentThemeName}
+              onChangeValue={async (value) =>
+                await toggleTheme(value)
+              }
+              buttons={[
+                { label: "Claro", value: "light" },
+                { label: "Escuro", value: "dark" },
+              ]}
+            />
+          </ConfigInputContainer>
+        </ConfigWrapper>
+
         <ConfigWrapper>
           <ConfigLabel>
             <Feather name="thermometer" size={18} /> Unidade de temperatura
@@ -45,6 +69,7 @@ const Configurations: React.FC = () => {
             />
           </ConfigInputContainer>
         </ConfigWrapper>
+
         <ConfigWrapper>
           <ConfigLabel>
             <Ionicons name="speedometer-outline" size={18} /> Unidade de

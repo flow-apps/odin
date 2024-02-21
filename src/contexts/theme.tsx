@@ -12,7 +12,7 @@ import { darkColors } from "../styles/colors";
 import { lightColors } from "../styles/colors";
 
 interface ThemeControllerContext {
-  toggleTheme: () => unknown;
+  toggleTheme: (theme?: string) => unknown;
   currentThemeName: string;
 }
 
@@ -28,15 +28,25 @@ const ThemeControllerProvider: React.FC<{ children: React.ReactNode }> = ({
     "@Odin:theme",
     defaultTheme === "light" ? lightColors : darkColors
   );
-  const toggleTheme = useCallback(() => {
-    setTheme(theme.title === "light" ? darkColors : lightColors);
-  }, [theme, theme.title]);
+  const toggleTheme = useCallback(
+    (themeName = "") => {
+      if (themeName) {
+        if (themeName !== theme.title) {
+          setTheme(themeName === "light" ? lightColors : darkColors);
+        }
+        return;
+      }
+
+      setTheme(theme.title === "light" ? darkColors : lightColors);
+    },
+    [theme, theme.title]
+  );
 
   useEffect(() => {
     if (defaultTheme !== theme.title) {
-      setTheme(defaultTheme === "light" ? lightColors : darkColors)
+      setTheme(defaultTheme === "light" ? lightColors : darkColors);
     }
-  }, [defaultTheme])
+  }, [defaultTheme]);
 
   // useEffect(() => {
   //   StatusBar.setBarStyle("light-content");
